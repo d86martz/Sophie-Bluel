@@ -8,13 +8,11 @@ const getWorksList = async () => {
     .then(res => res.json())
     .then(data => {
         for( i=0; i < data.length; i++) {
-            let image = document.createElement(`img`);
-            let figCaption = document.createElement(`figcaption`);
-            image.src = data.imageUrl;
-            figCaption.textContent = data.title;
+            let image = document.createElement('img');
+            image.src = `${data.imageUrl}`;
+            image.alt = `${data.title}`;
             let sectionGallery = document.querySelector(".gallery");
-            sectionGallery.appendChild(`img`);
-            sectionGallery.appendChild(`figCaption`);
+            sectionGallery.appendChild(image);
         }
     })
 }
