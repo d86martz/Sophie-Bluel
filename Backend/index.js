@@ -8,6 +8,17 @@ const getWorksList = async () => {
     .then(res => res.json())
     .then(data => {
         console.log(data)
+        document.addEventListener('filters', () => {
+            let allButton = document.createElement('button');
+            button.type = 'button';
+            button.innerHTML = 'Tous';
+            button.onclick = function () {
+
+            };
+            let sectionFilter = document.querySelector(".gallery");
+            sectionFilter.appendChild(allButton);
+        })
+        
         for(let i = 0; i < data.length; i++) {
             let work = document.createElement('work');
             let image = document.createElement('img');
@@ -24,6 +35,3 @@ const getWorksList = async () => {
 }  
   
 getWorksList()
-
-
-
