@@ -46,7 +46,7 @@ const getWorks = async () => {
 }
 getWorks()
 
-const onload = (works) => {                                     
+const onload = () => {                                     
   const allBtn = document.getElementById("Tous");             //Selecting the "All" button
   allBtn.click();                                             //Activating the button
   allBtn.focus();
