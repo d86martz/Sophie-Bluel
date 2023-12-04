@@ -6,6 +6,7 @@ const password = document.getElementById("password").value;
 const login = () => {
     loginBox = document.getElementById("login")
     loginBox.addEventListener("submit", (event) => {
+        event.preventDefault()
         authentification()
     })      
 }
