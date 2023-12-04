@@ -1,14 +1,13 @@
 const apiUrl = "http://localhost:5678/api/"
 
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
+
 const login = () => {
     loginBox = document.getElementById("login")
-    const user = {
-        email : document.getElementById("email").value,
-        password : document.getElementById("password").value
-    }
     loginBox.addEventListener("submit", (event) => {
-        authentification(user)
-    })   
+        authentification()
+    })      
 }
 login()
 
@@ -30,8 +29,9 @@ const authentification = async (user) => {
             alert("Error Password or E-mail");
         } else {
             window.location.href = './index.html';
+            sessionStorage.setItem("token", (data.token.JSON))
         }
-    }) 
+    })   
 }
 
 
