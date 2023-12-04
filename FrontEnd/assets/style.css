@@ -148,9 +148,18 @@ nav li img {
     border-color: #1D6154;
     border-radius: 1.6em;
 }
-.filters button:focus {
+.filters button:focus, .filters button:active {
 	background-color: #1D6154;
-	color: white;
+	color: white
+}
+#Tous {
+	padding: 0 1.8em
+}
+#Objets {
+	padding: 0 1.2em
+}
+#Appartements {
+	padding: 0 0.8em
 }
 .gallery {
 	display: grid;
@@ -201,9 +210,49 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px 
 }
+
+footer {
+	height: auto;
+	background-color: white;
+}
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em 
+	padding: 1.5em 5em; 
 }
-
+#login {
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 35%;
+	margin: 12em auto 25em auto
+}
+#login h2 {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px
+}
+#login form {
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: left;
+	margin: top 30px;
+}
+#login label {
+	margin: 2em 0 1em 0
+}
+#login input {
+	height: 3.125em;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09)
+}
+#login input[type="submit"]{
+	width: 12.5em;
+	height: 2.5em
+}
+#login form a {
+	text-align: center;
+}
