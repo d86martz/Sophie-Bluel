@@ -1,7 +1,6 @@
 const apiUrl = "http://localhost:5678/api/"
 
-const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
+
 
 const login = () => {
     loginBox = document.getElementById("login")
@@ -12,7 +11,11 @@ const login = () => {
 }
 login()
 
-const authentification = async (user) => {
+const authentification = async () => {
+    const email = document.getElementById("mail").value;
+    const password = document.getElementById("pass").value;
+    console.log(email);
+    console.log(password);
     return await fetch (`${apiUrl}users/login`), {
         method: 'POST',
         body: JSON.stringify ({        
@@ -20,19 +23,25 @@ const authentification = async (user) => {
             "password": password    
         }),
         headers: {
+        "accept": "application/json",
         "Content-Type": "application/json"
         }
-    }
     .then(res => res.json())
-    .then(data => {
-        console.log(data)
-        if (data.error) {
-            alert("Error Password or E-mail");
-        } else {
-            window.location.href = './index.html';
-            sessionStorage.setItem("token", (data.token.JSON))
-        }
-    })   
+    .then(res => console.log(res))
+    }
+    
 }
+ 
+//     .then(data => {
+//         console.log(data)
+//         if (data.error) {
+//             alert("Error Password or E-mail");
+//         } else {
+//             window.location.href = './index.html';
+//             sessionStorage.setItem("token", (data.token.JSON))
+//         }
+//     })}
+       
+// }
 
 
