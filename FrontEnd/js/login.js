@@ -1,20 +1,23 @@
 const apiUrl = "http://localhost:5678/api/"
 
-const email = document.getElementById("email");
-const userMail = email.addEventListener("input", (event) => {
-    event.target.value
- })
-const password = document.getElementById("password");
-const userPass = password.addEventListener("input", (event) => {
-    event.target.value
-})
+const login = () => {
+    loginBox = document.getElementById("login")
+    const user = {
+        email : document.getElementById("email").value,
+        password : document.getElementById("password").value
+    }
+    loginBox.addEventListener("submit", (event) => {
+        authentification(user)
+    })   
+}
+login()
 
-const login = async () => {
+const authentification = async (user) => {
     return await fetch (`${apiUrl}users/login`), {
         method: 'POST',
         body: JSON.stringify ({        
-            "email": userMail,
-            "password": userPass    
+            "email": email,
+            "password": password    
         }),
         headers: {
         "Content-Type": "application/json"
@@ -30,5 +33,5 @@ const login = async () => {
         }
     }) 
 }
-login()
+
 
