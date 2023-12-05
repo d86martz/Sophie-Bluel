@@ -1,12 +1,14 @@
-   
 const apiUrl = "http://localhost:5678/api/"                    //Url of API
 
               //Category
 
 const getApiCategory = async () => {
   return await fetch (`${apiUrl}categories`)                   //Calling the API for category receipt
-    .then((res) => res.json())                                 
-};
+    .then(res => res.json())
+    .catch (error => {
+      console.log(error)
+    })
+}
 const apiCategory = async () => {
   let setApiCategory = new Set(await getApiCategory());
   const category = Array.from(setApiCategory.values());
@@ -34,7 +36,10 @@ const filterButton = (category) => {
 const getApiWorks = async () => {
   return await fetch (`${apiUrl}works`)                       //Calling the API for works receipt
     .then((res) => res.json())   
-};
+    .catch (error => {
+      console.log(error)
+    })
+}
 
 const getWorks = async () => {
   const setWorks = new Set (await getApiWorks());
@@ -59,8 +64,8 @@ const fullGallery = (works) => {
 
 const sectionGallery = document.querySelector(".gallery");
 const getGallery = (works) => {
-  sectionFilters.addEventListener("click", (event) => {
-    const filter = event.target.textContent;
+  sectionFilters.addEventListener("click", (e) => {
+    const filter = e.target.textContent;
     sectionGallery.innerHTML = "";
     if (filter === "Tous"){
       fullGallery(works)     
@@ -70,7 +75,7 @@ const getGallery = (works) => {
         if(filter === work.category.name)
           figureCreation(work)
       })
-    }  
+    } 
   })   
 }
 
