@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:5678/api/" 
+const apiUrl = "http://localhost:5678/api/"
 
 const login = () => {
     loginBox = document.getElementById("login")
@@ -10,8 +10,8 @@ const login = () => {
 login()
 
 const authentification = async () => {
-    const email = document.getElementById("mail").value;
-    const password = document.getElementById("pass").value;
+    const email = document.getElementById("mail").value
+    const password = document.getElementById("pass").value
         return await fetch (`${apiUrl}users/login`, {
             method: 'POST',
             body: JSON.stringify ({        
@@ -26,10 +26,11 @@ const authentification = async () => {
         .then(res => res.json())
         .then(data => {
             if (data.error) {
-                alert("Error Password or E-mail");
+                alert("Error Password or E-mail")
             } else {
-                sessionStorage.setItem("token", (data.token));
-                window.location.assign("./index.html");
+                alert("User connected")
+                sessionStorage.setItem("token", (data.token))
+                window.location.assign("./index.html") 
             }
           })
         .catch(error => {

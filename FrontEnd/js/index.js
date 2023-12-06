@@ -4,33 +4,33 @@ const apiUrl = "http://localhost:5678/api/"                    //Url of API
 
 const getApiCategory = async () => {
   return await fetch (`${apiUrl}categories`)                   //Calling the API for category receipt
-    .then(res => res.json())
+    .then(res => res.json())                                   
     .catch (error => {
       console.log(error)
     })
 }
 const apiCategory = async () => {
-  let setApiCategory = new Set(await getApiCategory());
-  const category = Array.from(setApiCategory.values());
-  category.splice(0,0,{id:0, name:"Tous"});
+  let setApiCategory = new Set(await getApiCategory())
+  const category = Array.from(setApiCategory.values())
+  category.splice(0,0,{id:0, name:"Tous"})
   console.log("Category : ", category)
   getFilters(category)
-};
-apiCategory();
+}
+apiCategory()
 
 const getFilters = (category) => {
   category.forEach(value => {
     filterButton(value.name)
   })
-};
+}
 
-const sectionFilters = document.querySelector(".filters");    
+const sectionFilters = document.querySelector(".js-filters")   
 const filterButton = (category) => {
-  button = document.createElement("button");                  //Creating the Button
-  button.setAttribute("id", category);                        //Assigning an Id
-  button.textContent = (category);                            //Visible button text
+  button = document.createElement("button")                     //Creating the Button
+  button.setAttribute("id", category)                           //Assigning an Id
+  button.textContent = (category)                               //Visible button text
   sectionFilters.appendChild(button) 
- };
+ }
               //Works
 
 const getApiWorks = async () => {
@@ -42,19 +42,19 @@ const getApiWorks = async () => {
 }
 
 const getWorks = async () => {
-  const setWorks = new Set (await getApiWorks());
-  const works = Array.from(setWorks.values());
+  const setWorks = new Set (await getApiWorks())
+  const works = Array.from(setWorks.values())
   console.log("Works : ", works)
   onload(works)
-  getGallery(works)
+  setGallery(works)
   fullGallery(works)
 }
 getWorks()
 
 const onload = () => {                                     
-  const allBtn = document.getElementById("Tous");             //Selecting the "All" button
-  allBtn.click();                                             //Activating the button
-  allBtn.focus();
+  const allBtn = document.getElementById("Tous")             //Selecting the "All" button
+  allBtn.click()                                             //Activating the button
+  allBtn.focus()
 }
 const fullGallery = (works) => {
   works.forEach(work => {
@@ -62,11 +62,11 @@ const fullGallery = (works) => {
   })
 }
 
-const sectionGallery = document.querySelector(".gallery");
-const getGallery = (works) => {
+const sectionGallery = document.querySelector(".js-gallery")
+const setGallery = (works) => {
   sectionFilters.addEventListener("click", (e) => {
-    const filter = e.target.textContent;
-    sectionGallery.innerHTML = "";
+    const filter = e.target.textContent
+    sectionGallery.innerHTML = ""
     if (filter === "Tous"){
       fullGallery(works)     
     }
@@ -80,16 +80,16 @@ const getGallery = (works) => {
 }
 
 const figureCreation = (work) => {
-  figure = document.createElement("work");                     //Creating the Project Figure Element
-  image = document.createElement("img");                       //Creating the Project Image Element
-  title = document.createElement("p");                         //Creating the Project Title Element
-  title.style.marginTop = "0.5em";                             //Changing the Layout of the Title
-  image.src = work.imageUrl;                                   //Image Element Source
-  title.textContent = work.title;                              //Title Element Source
-  figure.appendChild(image);                                   //Added the Image Element in the Figure Element
-  figure.appendChild(title);                                   //Added the Title Element in the Figure Element
-  sectionGallery.appendChild(figure)                           //Added the element in the HTML section
-};
+  figure = document.createElement("work")                     //Creating the Project Figure Element
+  image = document.createElement("img")                       //Creating the Project Image Element
+  title = document.createElement("p")                         //Creating the Project Title Element
+  title.style.marginTop = "0.5em"                             //Changing the Layout of the Title
+  image.src = work.imageUrl                                   //Image Element Source
+  title.textContent = work.title                              //Title Element Source
+  figure.appendChild(image)                                   //Added the Image Element in the Figure Element
+  figure.appendChild(title)                                   //Added the Title Element in the Figure Element
+  sectionGallery.appendChild(figure)                          //Added the element in the HTML section
+}
 
 
 

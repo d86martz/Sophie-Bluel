@@ -28,12 +28,12 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block
 }
-header, h1, nav ul, .filters, #contact form, footer nav ul, #login, 
-#login h2, #login form, .editor, .modal-wrapper {
+header, h1, nav ul, .js-filters, #contact form, footer nav ul, #login, 
+#login h2, #login form, .js-editor, .modal-wrapper {
 	display: flex
 }
 
-.modal-wrapper, .editor, .login form, #login, #login h2, .filters,
+.modal-wrapper, .js-editor, .login form, #login, #login h2, .js-filters,
  #portfolio h2 {
 	justify-content: center;
 }
@@ -139,11 +139,11 @@ nav li img {
 	text-align: center;
 	margin-bottom: 1em
 }
-.filters {
+.js-filters {
 	gap: 0.6em;
 	margin: 3em 0
 }
-.filters button {
+.js-filters button {
 	font-family: 'Syne';
 	font-size: 1em;
 	color: #1D6154;
@@ -153,7 +153,7 @@ nav li img {
     border-color: #1D6154;
     border-radius: 1.6em;
 }
-.filters button:focus, .filters button:active {
+.js-filters button:focus, .filters button:active {
 	background-color: #1D6154;
 	color: white
 }
@@ -166,13 +166,13 @@ nav li img {
 #Appartements {
 	padding: 0 0.8em
 }
-.gallery {
+.js-gallery {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px
 }
-.gallery img {
+.js-gallery img {
 	width: 100%
 }
 #contact {
@@ -253,13 +253,13 @@ footer nav ul {
 #login form a {
 	text-align: center;
 }
-.editor {
+.js-editor {
 	align-items: center;
 	width: 100%;
 	height: 3.7em;
 	background-color: black;
 }
-.editor button {
+.js-editor button {
 	background: none;
 	color: white;
 	border: none;
@@ -297,15 +297,14 @@ footer nav ul {
 .modal-wrapper input {
 	width:fit-content;
 	text-align: center;
-	padding: 0.8em 4em;
-	
+	padding: 0.8em 4em;	
 }
-.overlay {
+.modal-open {
 	position: absolute;
 	top: 0; 
 	left: 0;
 	height: 100%;
 	width: 100%;
-	background-color: hsla(0, 0%, 0%, 0.5);	
+	background-color: hsla(0, 0%, 0%, 0.5);
+	overflow-y: hidden;
 }
-
