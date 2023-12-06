@@ -30,7 +30,8 @@ const authentification = async () => {
             } else {
                 alert("User connected")
                 sessionStorage.setItem("token", (data.token))
-                window.location.assign("./index.html") 
+                window.location.assign("./index.html")
+                // document.querySelector(".js-editor").style.display = null 
             }
           })
         .catch(error => {
