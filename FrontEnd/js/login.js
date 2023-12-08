@@ -28,10 +28,8 @@ const authentification = async () => {
       if (data.error) {
         alert("Error Password or E-mail");
       } else {
-        alert("User connected");
         sessionStorage.setItem("token", data.token);
         window.location.assign("./index.html");
-        // document.querySelector(".js-editor").style.display = null
       }
     })
     .catch((error) => {

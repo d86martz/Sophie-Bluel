@@ -15,7 +15,6 @@ const openModal = (e) => {
     .querySelector(".js-modal-stop")
     .addEventListener("click", stopPropagation);
   overlay.classList.add("js-modal-open");
-    
 };
 
 const closeModal = (e) => {
@@ -37,11 +36,46 @@ const stopPropagation = (e) => {
   e.stopPropagation();
 };
 
-const sendProjectBtn = document.querySelector(".js-modal-wrapper input");
-sendProjectBtn.addEventListener("submit", (event) => {
-  event.preventDefault();
-  postApiProject();
+const Modalfigure = document.querySelector(".js-modalGallery");
+Modalfigure.addEventListener("click", (event) => {
+  const id = event.target.parentElement.id
+  deleteWork(id)
 });
+
+const deleteWork = async (id) => {
+  const token = localStorage.getItem("token")
+  return await fetch(`${apiUrl}works/${id}`, {
+    method: "DELETE",
+    headers: { 
+      "Authorization": `Bearer ${token}`,
+    }
+  })
+  .then((res) => res.json())
+  .catch((error) => {
+    console.log(error);
+  });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const sendProjectBtn = document.querySelector(".js-modal-wrapper input");
+// sendProjectBtn.addEventListener("submit", (event) => {
+//   event.preventDefault();
+//   postApiProject();
+// });
 
 // const formData = new FormData();
 //     formData.append("image", document.querySelector("#file.img").files[0]);
@@ -63,19 +97,19 @@ sendProjectBtn.addEventListener("submit", (event) => {
 // sectionGallery.appendChild(figure);
 
 
-const postApiProject = async () => {
-  return await fetch(`${apiUrl}works`, {
-    method: "POST",
-    body: formData,
-    headers: { 
-        "Authorization": "Bearer token",
-        "Content-Type": "multipart/form-data" },
-  })
+// const postApiProject = async () => {
+//   return await fetch(`${apiUrl}works`, {
+//     method: "POST",
+//     body: formData,
+//     headers: { 
+//         "Authorization": "Bearer token",
+//         "Content-Type": "multipart/form-data" },
+//   })
     
-  .then((res) => res.json())
-    .catch((error) => {
-      console.log(error);
-    });
-};
+//   .then((res) => res.json())
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// };
 
     

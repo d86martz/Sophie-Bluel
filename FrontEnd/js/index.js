@@ -10,7 +10,7 @@ userConnected()
 
 const apiUrl = "http://localhost:5678/api/"                    //Url of API
 
-              //Category
+//Category
 
 const getApiCategory = async () => {
   return await fetch (`${apiUrl}categories`)                   //Calling the API for category receipt
@@ -62,10 +62,9 @@ const getWorks = async () => {
 } 
 getWorks()
 
-const modalGallery = document.querySelector(".js-modalGallery")
 const addModalGallery = (works) => {
   works.forEach(work => {
-      modalGallery.appendChild(figureCreation(work))
+    modalFigureCreation(work)
   })
 }
 
@@ -81,11 +80,11 @@ const addGallery = (works) => {
 const filterGallery = (works, filter) => {
   works.forEach(work => {
     if(filter === work.category.name) {
-      sectionGallery.appendChild(figureCreation(work))      
+      figureCreation(work)    
     }else {
       if(filter==="Tous") {
-        sectionGallery.appendChild(figureCreation(work))
-      }    
+        figureCreation(work)
+    }
     }
   })
 }
@@ -99,7 +98,22 @@ const figureCreation = (work) => {                    //Creating the Project Fig
   const figure = document.createElement("work")                               //Title Element Source
   figure.appendChild(image)                                   //Added the Image Element in the Figure Element
   figure.appendChild(title)
-  return figure                                                  //Added the Title Element in the Figure Element                          //Added the element in the HTML section
+  figure.setAttribute("id", work.category.id)
+  sectionGallery.appendChild(figure)                                                  //Added the Title Element in the Figure Element                          //Added the element in the HTML section
+}
+
+const modalFigureCreation = (work) => { 
+  const modalGallery = document.querySelector(".js-modalGallery")                   //Creating the Project Figure Element
+  image = document.createElement("img")
+  image.setAttribute("id", work.category.id)                     //Creating the Project Image Element                                      //Changing the Layout of the Title
+  image.src = work.imageUrl
+  button = document.createElement("button")
+  button.innerHTML = ('value','<i class="fas fa-trash-can"></i>')
+  button.setAttribute("id", work.category.id)               //Creating the Button                                  //Image Element Source
+  const figure = document.createElement("work")                               //Title Element Source
+  figure.appendChild(image)
+  figure.appendChild(button)                                  //Added the Image Element in the Figure Element
+  modalGallery.appendChild(figure)                                                  //Added the Title Element in the Figure Element                          //Added the element in the HTML section
 }
 
 const onload = () => {                                     
