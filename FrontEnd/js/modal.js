@@ -1,53 +1,46 @@
-const overlay = document.querySelector(".js-overlay");
-
-const editorBtn = document.querySelector(".js-edit");
-editorBtn.addEventListener("click", (e) => {
-  openModal(e);
+document.querySelector('.js-edit').addEventListener('click', (event) => {
+  openModal(event);
 });
-
-const openModal = (e) => {
-  e.preventDefault();
-  modal = document.querySelector(".js-modal");
+const openModal = (event) => {
+  event.preventDefault();
+  modal = document.querySelector('.js-modal');
   modal.style.display = null;
-  modal.addEventListener("click", closeModal);
-  modal.querySelector(".js-modal-close").addEventListener("click", closeModal);
+  modal.addEventListener('click', closeModal);
+  modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
   modal
-    .querySelector(".js-modal-stop")
-    .addEventListener("click", stopPropagation);
-  overlay.classList.add("js-modal-open");
+    .querySelector('.js-modal-stop')
+    .addEventListener('click', stopPropagation);
+    document.querySelector('.js-main-container').classList.add('js-modal-open');
 };
-
-const closeModal = (e) => {
+const closeModal = (event) => {
   if (modal === null) return;
-  e.preventDefault();
-  modal.style.display = "none";
-  modal.removeEventListener("click", closeModal);
+  event.preventDefault();
+  modal.style.display = 'none';
+  modal.removeEventListener('click', closeModal);
   modal
-    .querySelector(".js-modal-close")
-    .removeEventListener("click", closeModal);
+    .querySelector('.js-modal-close')
+    .removeEventListener('click', closeModal);
   modal
-    .querySelector(".js-modal-stop")
-    .removeEventListener("click", stopPropagation);
+    .querySelector('.js-modal-stop')
+    .removeEventListener('click', stopPropagation);
   modal = null;
-  overlay.classList.remove("js-modal-open");
+  document.querySelector('.js-main-container').classList.remove('js-modal-open');
 };
+const stopPropagation = (event) => {
+  event.stopPropagation()
+}
 
-const stopPropagation = (e) => {
-  e.stopPropagation();
-};
-
-const Modalfigure = document.querySelector(".js-modalGallery");
-Modalfigure.addEventListener("click", (event) => {
-  const id = event.target.parentElement.id
-  deleteWork(id)
-});
+ 
+  
+  // deleteWork(id)
+// }))
 
 const deleteWork = async (id) => {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem('token')
   return await fetch(`${apiUrl}works/${id}`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: { 
-      "Authorization": `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`,
     }
   })
   .then((res) => res.json())
@@ -57,20 +50,6 @@ const deleteWork = async (id) => {
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // const sendProjectBtn = document.querySelector(".js-modal-wrapper input");
 // sendProjectBtn.addEventListener("submit", (event) => {
 //   event.preventDefault();
@@ -78,10 +57,13 @@ const deleteWork = async (id) => {
 // });
 
 // const formData = new FormData();
-//     formData.append("image", document.querySelector("#file.img").files[0]);
-//     formData.append("title", document.querySelector("#title.img").value);
-//     formData.append("category", document.querySelector("#category").value);
-//     console.log(formData);
+// formData.append("category", document.querySelector("#category.id").value);
+// formData.append("category", document.querySelector("#category.name").value);
+// formData.append("categoryId", document.querySelector("#categoryId").value);     
+// formData.append("imageUrl", document.querySelector("#.img").files);
+// formData.append("title", document.querySelector("#title.img").value);
+// formData.append("userId", document.querySelector("#userId").value);
+
 // const title=document.getElementById("title").value;
 // const categorie=document.getElementById("category").value;
 // const imageElement = document.createElement("img");

@@ -1,14 +1,13 @@
 const userConnected = () => {
-  const token = sessionStorage.getItem("token")
-  if(token !== null) {
-    document.querySelector(".js-edit-mode").style.display = null;
-    document.querySelector(".js-edit").style.display = null;
-    document.querySelector(".js-filters").style.visibility = "hidden";
+  if(sessionStorage.getItem('token') !== null) {
+    document.querySelector('.js-edit-mode').style.display = null;
+    document.querySelector('.js-edit').style.display = null;
+    document.querySelector('.js-filters').style.visibility = 'hidden';
   }
 }
 userConnected() 
 
-const apiUrl = "http://localhost:5678/api/"                    //Url of API
+const apiUrl = 'http://localhost:5678/api/'                   //Url of API
 
 //Category
 
@@ -21,27 +20,26 @@ const getApiCategory = async () => {
 }
 const apiCategory = async () => {
   let setApiCategory = new Set(await getApiCategory())
-  const category = Array.from(setApiCategory.values())
-  category.splice(0,0,{id:0, name:"Tous"})
-  console.log("Category : ", category)
-  getFilters(category)
+  const categoryList = Array.from(setApiCategory.values())
+  categoryList.splice(0,0,{id:0, name:'Tous'})
+  console.log('Category : ', categoryList)
+  getFilters(categoryList)
 }
 apiCategory()
 
-const getFilters = (category) => {
-  category.forEach(value => {
-    filterButton(value.name)
+const getFilters = (categoryList) => {
+  categoryList.forEach(category => {
+    filterButton(category)
   })
 }
-
-const sectionFilters = document.querySelector(".js-filters")   
 const filterButton = (category) => {
-  button = document.createElement("button")                     //Creating the Button
-  button.setAttribute("id", category)                           //Assigning an Id
-  button.textContent = (category)                               //Visible button text
-  sectionFilters.appendChild(button) 
+  button = document.createElement('button')                     //Creating the Button
+  button.setAttribute('id', category.id)                  //Assigning an Id
+  button.textContent = (category.name)                               //Visible button text
+  document.querySelector('.js-filters').appendChild(button) 
  }
-              //Works
+
+ //Works
 
 const getApiWorks = async () => {
   return await fetch (`${apiUrl}works`)                       //Calling the API for works receipt
@@ -50,14 +48,12 @@ const getApiWorks = async () => {
       console.log(error)
     })
 }
-
 const getWorks = async () => {
   const setWorks = new Set (await getApiWorks())
   const works = Array.from(setWorks.values())
-  console.log("Works : ", works)
-  filterGallery(works, "Tous")
+  console.log('Works : ', works)
   addModalGallery(works)
-  addGallery(works)
+  setGallery(works)
   onload()
 } 
 getWorks()
@@ -67,61 +63,56 @@ const addModalGallery = (works) => {
     modalFigureCreation(work)
   })
 }
-
-const sectionGallery = document.querySelector(".js-gallery")
-const addGallery = (works) => {
-  sectionFilters.addEventListener("click", (event) => {
-    const filter = event.target.textContent  
-    sectionGallery.innerHTML = ""
-    filterGallery(works, filter) 
+const setGallery = (works) => {
+  document.querySelector('.js-filters')
+    .addEventListener('click', (event) => {
+      const filter = event.target.id
+      document.querySelector('.js-gallery').innerHTML = ''
+      addGallery(works, filter) 
   })
 }
+const addGallery = (works, filter) => {
 
-const filterGallery = (works, filter) => {
+
   works.forEach(work => {
-    if(filter === work.category.name) {
+    if(filter == work.category.id) {
       figureCreation(work)    
     }else {
-      if(filter==="Tous") {
+      if(filter == 0) {
         figureCreation(work)
     }
     }
   })
 }
-
 const figureCreation = (work) => {                    //Creating the Project Figure Element
-  image = document.createElement("img")                       //Creating the Project Image Element
-  title = document.createElement("p")                         //Creating the Project Title Element
-  title.style.marginTop = "0.5em"                             //Changing the Layout of the Title
+  image = document.createElement('img')                       //Creating the Project Image Element
+  title = document.createElement('p')                         //Creating the Project Title Element
+  title.style.marginTop = '0.5em'                             //Changing the Layout of the Title
   image.src = work.imageUrl                                   //Image Element Source
   title.textContent = work.title
-  const figure = document.createElement("work")                               //Title Element Source
+  const figure = document.createElement('work')                               //Title Element Source
   figure.appendChild(image)                                   //Added the Image Element in the Figure Element
   figure.appendChild(title)
-  figure.setAttribute("id", work.category.id)
-  sectionGallery.appendChild(figure)                                                  //Added the Title Element in the Figure Element                          //Added the element in the HTML section
+  figure.setAttribute('id', work.id)
+  document.querySelector('.js-gallery').appendChild(figure)                                                  //Added the Title Element in the Figure Element                          //Added the element in the HTML section
 }
-
-const modalFigureCreation = (work) => { 
-  const modalGallery = document.querySelector(".js-modalGallery")                   //Creating the Project Figure Element
-  image = document.createElement("img")
-  image.setAttribute("id", work.category.id)                     //Creating the Project Image Element                                      //Changing the Layout of the Title
+const modalFigureCreation = (work) => {                   //Creating the Project Figure Element
+  image = document.createElement('img')                    //Creating the Project Image Element                                      //Changing the Layout of the Title
   image.src = work.imageUrl
-  button = document.createElement("button")
+  button = document.createElement('button')
   button.innerHTML = ('value','<i class="fas fa-trash-can"></i>')
-  button.setAttribute("id", work.category.id)               //Creating the Button                                  //Image Element Source
-  const figure = document.createElement("work")                               //Title Element Source
+  button.setAttribute('class', 'js-trashButton')
+  button.setAttribute('id', work.id)              //Creating the Button                                  //Image Element Source
+  const figure = document.createElement('work')                               //Title Element Source
+  figure.appendChild(button)
   figure.appendChild(image)
-  figure.appendChild(button)                                  //Added the Image Element in the Figure Element
-  modalGallery.appendChild(figure)                                                  //Added the Title Element in the Figure Element                          //Added the element in the HTML section
+  figure.setAttribute('id', work.id)                                //Added the Image Element in the Figure Element
+  document.querySelector('.js-modalGallery').appendChild(figure)
+  button.addEventListener('click', (event) => {
+  })                                                   //Added the Title Element in the Figure Element                          //Added the element in the HTML section
 }
-
 const onload = () => {                                     
-  const allBtn = document.getElementById("Tous")             //Selecting the "All" button
-  allBtn.click()                                             //Activating the button
-  allBtn.focus()
+  const allBtn = document.getElementById(0)
+  allBtn.click()
+  allBtn.focus()      //Selecting the "All" button
 }
-
-
-
-

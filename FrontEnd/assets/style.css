@@ -312,15 +312,15 @@ footer nav ul {
 	border-color: #B3B3B3;
 }
 .js-modalGallery img {
+	position: relative;
 	height: 7.8em;
 	width: 5.7em;
 }
-.js-modalGallery button {
+.js-trashButton {
 	position: absolute;
-	z-index: 2;
-	float: right;
-	margin: 0.5em 6em 0 0em;
-	padding: 0.2em 0.35em;
+	z-index: 1;
+	margin: 0.5em 0.5em 0 4em;
+	padding: 0.25em 0.35em;
 	background: black;
 	border-radius: 0.15em;
 	border: none;
@@ -335,9 +335,8 @@ footer nav ul {
 	margin: 2.5em auto	
 }
 .js-modal-wrapper input:active {
-	background-color:limegreen;
+	background-color:green;
 }
-
 .js-modal-open {
 	position: absolute;
 	z-index: 1;
