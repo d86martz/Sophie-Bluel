@@ -29,18 +29,12 @@ const closeModal = (event) => {
 const stopPropagation = (event) => {
   event.stopPropagation()
 }
-
- 
-  
-  // deleteWork(id)
-// }))
-
 const deleteWork = async (id) => {
-  const token = localStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
   return await fetch(`${apiUrl}works/${id}`, {
     method: 'DELETE',
     headers: { 
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`
     }
   })
   .then((res) => res.json())

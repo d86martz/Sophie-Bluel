@@ -72,8 +72,6 @@ const setGallery = (works) => {
   })
 }
 const addGallery = (works, filter) => {
-
-
   works.forEach(work => {
     if(filter == work.category.id) {
       figureCreation(work)    
@@ -100,15 +98,16 @@ const modalFigureCreation = (work) => {                   //Creating the Project
   image = document.createElement('img')                    //Creating the Project Image Element                                      //Changing the Layout of the Title
   image.src = work.imageUrl
   button = document.createElement('button')
-  button.innerHTML = ('value','<i class="fas fa-trash-can"></i>')
-  button.setAttribute('class', 'js-trashButton')
-  button.setAttribute('id', work.id)              //Creating the Button                                  //Image Element Source
+  button.innerHTML = ('value',`<i workId="${work.id}" class="fas fa-trash-can"></i>`)
+  button.setAttribute('class', 'js-trashButton')            //Creating the Button                                  //Image Element Source
   const figure = document.createElement('work')                               //Title Element Source
   figure.appendChild(button)
   figure.appendChild(image)
   figure.setAttribute('id', work.id)                                //Added the Image Element in the Figure Element
   document.querySelector('.js-modalGallery').appendChild(figure)
   button.addEventListener('click', (event) => {
+    const id = event.target.getAttribute('workId')
+    deleteWork(id)
   })                                                   //Added the Title Element in the Figure Element                          //Added the element in the HTML section
 }
 const onload = () => {                                     
@@ -116,3 +115,4 @@ const onload = () => {
   allBtn.click()
   allBtn.focus()      //Selecting the "All" button
 }
+
