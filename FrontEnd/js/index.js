@@ -1,12 +1,12 @@
 const userConnected = () => {
   if(sessionStorage.getItem('token') !== null) {
-    document.querySelector('.js-edit-mode').style.display = null;
-    document.querySelector('.js-edit').style.display = null;
-    document.querySelector('.js-filters').style.visibility = 'hidden';
+    document.getElementById('js-editMode').style.display = null;
+    document.getElementById('js-edit').style.display = null;
+    document.getElementById('js-filters').style.visibility = 'hidden';
   }
 }
 userConnected() 
-
+console.log(document.getElementById(newWorkCategory))
 const apiUrl = 'http://localhost:5678/api/'                   //Url of API
 
 //Category
@@ -34,9 +34,10 @@ const getFilters = (categoryList) => {
 }
 const filterButton = (category) => {
   button = document.createElement('button')                     //Creating the Button
-  button.setAttribute('id', category.id)                  //Assigning an Id
+  button.setAttribute('id', category.id)
+  button.setAttribute('class', category.name)                  //Assigning an Id
   button.textContent = (category.name)                               //Visible button text
-  document.querySelector('.js-filters').appendChild(button) 
+  document.getElementById('js-filters').appendChild(button) 
  }
 
  //Works
@@ -64,10 +65,10 @@ const addModalGallery = (works) => {
   })
 }
 const setGallery = (works) => {
-  document.querySelector('.js-filters')
+  document.getElementById('js-filters')
     .addEventListener('click', (event) => {
       const filter = event.target.id
-      document.querySelector('.js-gallery').innerHTML = ''
+      document.getElementById('js-gallery').innerHTML = ''
       addGallery(works, filter) 
   })
 }
@@ -92,20 +93,21 @@ const figureCreation = (work) => {                    //Creating the Project Fig
   figure.appendChild(image)                                   //Added the Image Element in the Figure Element
   figure.appendChild(title)
   figure.setAttribute('id', work.id)
-  document.querySelector('.js-gallery').appendChild(figure)                                                  //Added the Title Element in the Figure Element                          //Added the element in the HTML section
+  document.getElementById('js-gallery').appendChild(figure)                                                  //Added the Title Element in the Figure Element                          //Added the element in the HTML section
 }
 const modalFigureCreation = (work) => {                   //Creating the Project Figure Element
   image = document.createElement('img')                    //Creating the Project Image Element                                      //Changing the Layout of the Title
   image.src = work.imageUrl
   button = document.createElement('button')
   button.innerHTML = ('value',`<i workId="${work.id}" class="fas fa-trash-can"></i>`)
-  button.setAttribute('class', 'js-trashButton')            //Creating the Button                                  //Image Element Source
+  button.setAttribute('class', 'js-trashButton')           //Creating the Button                                  //Image Element Source
   const figure = document.createElement('work')                               //Title Element Source
   figure.appendChild(button)
   figure.appendChild(image)
   figure.setAttribute('id', work.id)                                //Added the Image Element in the Figure Element
-  document.querySelector('.js-modalGallery').appendChild(figure)
+  document.getElementById('js-modalGallery').appendChild(figure)
   button.addEventListener('click', (event) => {
+    event.preventDefault()
     const id = event.target.getAttribute('workId')
     deleteWork(id)
   })                                                   //Added the Title Element in the Figure Element                          //Added the element in the HTML section

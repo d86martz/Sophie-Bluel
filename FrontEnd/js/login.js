@@ -8,7 +8,6 @@ const login = () => {
   });
 };
 login();
-
 const authentification = async () => {
   const email = document.getElementById("mail").value;
   const password = document.getElementById("pass").value;

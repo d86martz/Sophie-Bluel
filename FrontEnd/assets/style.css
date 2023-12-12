@@ -28,14 +28,15 @@ article, aside, details, figcaption, figure,
 hgroup, menu, nav, section {
 	display: block
 }
-header, h1, nav ul, .js-filters, #contact form, #login, 
-#login h2, #login form, .js-edit-mode, .js-edit-mode h4, .js-edit, .js-modal-wrapper,
- #portfolio, #portfolio h2, .js-modalGallery {
+header, h1, nav ul, #js-filters, #contact form, #login, 
+#login h2, #login form, #js-editMode, #js-editMode h4, #js-edit, #js-modalWrapper,
+#js-deleteModal, #js-addModal, #portfolio, #portfolio h2, #js-modalGallery,
+#js-modalHead, #js-formData, #pictureArea {
 	display: flex
 }
 
-.js-modal-wrapper, .js-edit-mode, .login form, #login, #login h2, .js-filters,
- #portfolio h2 {
+#js-modalWrapper, #js-editMode, .login form, #login, #login h2, #js-filters,
+ #portfolio h2, #pictureArea {
 	justify-content: center;
 }
 
@@ -142,18 +143,18 @@ nav li img {
 #portfolio h2 {
 	gap:0.9em;
 }
-.js-edit {
+#js-edit {
 	background: none;
 	border: none;
 	align-items: center;
 	gap:0.8em;
 	cursor: pointer;
 }
-.js-filters {
+#js-filters {
 	gap: 0.6em;
 	margin: 2em 0
 }
-.js-filters button {
+#js-filters button {
 	font-family: 'Syne';
 	font-size: 1em;
 	color: #1D6154;
@@ -163,26 +164,26 @@ nav li img {
     border-color: #1D6154;
     border-radius: 1.6em;
 }
-.js-filters button:focus, .filters button:active {
+#js-filters button:focus, #filters button:active {
 	background-color: #1D6154;
 	color: white
 }
-#Tous {
+.js-filters .Tous {
 	padding: 0 1.8em
 }
-#Objets {
+.js-filters .Objets {
 	padding: 0 1.2em
 }
-#Appartements {
+.js-filters .Appartements {
 	padding: 0 0.8em
 }
-.js-gallery {
+#js-gallery {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px
 }
-.js-gallery img {
+#js-gallery img {
 	width: 100%
 }
 #contact {
@@ -262,30 +263,35 @@ footer nav ul {
 #login form a {
 	text-align: center;
 }
-.js-edit-mode {
+#js-editMode {
 	align-items: center;
 	width: 100%;
 	height: 3.7em;
 	background-color: black;
 }
-.js-edit-mode h4 {
+#js-editMode h4 {
 	align-items: center;
 	background: none;
 	color: white;
 	border: none;
 	gap: 0.8em;
 }
-.js-modal-close {
+
+#js-modalHead {
+	justify-content: space-between;
+}
+#js-modalHead button {
 	background: none;
 	border: none;
-	text-align: right;
-	float: right;
 	margin: 2em 2em 0em ;
+	cursor: pointer;
 }
-.js-modal-close:hover {
-  cursor: pointer;
+#pictureArea {
+	flex-direction: column;
+	text-align: center;
+	border: solid 1em black;
 }
-.js-modal-wrapper {
+#js-modalWrapper {
 	position: fixed;
 	z-index: 2;
 	overflow: auto;
@@ -299,11 +305,20 @@ footer nav ul {
 	border-radius: 1em;
 	background-color: white;
 }
-.js-modal-wrapper h3 {
+#js-modalWrapper h3 {
 	text-align: center;
 	font-size: xx-large;
 }
-.js-modalGallery {
+#js-deleteModal, #js-addModal {
+	flex-direction: column;
+	justify-content: space-between;
+}
+#js-formData {
+	flex-direction: column;
+	height: 70%;
+	margin: 3em 7.5em 0 7.5em;
+}
+#js-modalGallery {
 	flex-wrap: wrap;
 	column-gap: 0.5em;
 	height: 70%;
@@ -311,7 +326,7 @@ footer nav ul {
 	border-bottom: solid 0.2em; 
 	border-color: #B3B3B3;
 }
-.js-modalGallery img {
+#js-modalGallery img {
 	position: relative;
 	height: 7.8em;
 	width: 5.7em;
@@ -327,17 +342,19 @@ footer nav ul {
 	color: white;
 	cursor: pointer;
 }
-
-.js-modal-wrapper input {
+.js-exeButton {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	border-radius: 60px; 
+	cursor: pointer;
 	width:fit-content;
 	text-align: center;
 	padding: 0.6em 4em;
 	margin: 2.5em auto	
 }
-.js-modal-wrapper input:active {
-	background-color:green;
-}
-.js-modal-open {
+.js-modalOpen {
 	position: absolute;
 	z-index: 1;
 	top: 0; 

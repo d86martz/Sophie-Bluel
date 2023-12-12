@@ -17,19 +17,44 @@
 </head>
 
 <body>
-	<div class="js-main-container">
-	<div class="js-edit-mode" style="display:none;">
-		<h4><i class="fa-regular fa-pen-to-square fa-lg"></i><span>Mode édition</span></h4>
-	</div>
-	<div class="js-modal" style="display:none;">
-		<div class="js-modal-wrapper js-modal-stop">
-			<button class="js-modal-close"><i class="fas fa-xmark fa-2x"></i></button>
-			<h3>Galerie photo</h3>
-			<div class="js-modalGallery">
-			</div>
-			<input type="submit" value="Ajouter une photo">
+	<div id="js-mainContainer">
+		<div id="js-editMode" style="display:none;">
+			<h4><i class="fa-regular fa-pen-to-square fa-lg"></i><span>Mode édition</span></h4>
 		</div>
-	</div>
+		<div id="js-modal" style="display:none;">
+			<div id="js-modalWrapper" class="js-modalStop">
+				<div id="js-modalHead">
+					<button id="js-modalReturn" style="visibility:hidden;"><i class="fas fas fa-arrow-left fa-2x"></i></button>
+					<button id="js-modalClose"><i class="fas fa-xmark fa-2x"></i></button>
+				</div>
+				<div id="js-deleteModal">
+					<h3 id="js-titleGallery">Galerie photo</h3>
+					<div id="js-modalGallery">
+					</div>
+					<button id="js-addNewWork" class="js-exeButton">Ajouter une photo</button>
+				</div>
+				<div id="js-addModal" style="display:none;">
+					<h3 id="js-titleForm">Ajout photo</h3>
+					<form id="js-formData">
+						<div id="pictureArea">
+							<i class="fa-sharp fa-regular fa-image"></i>
+							<input id="newWorkPicture" type="file" name="image">
+							<div id="addedPicture"><label for="file">+Ajouter photo</label></div>
+							<p>jng, png: 4mo max</p>
+						</div> 
+						<label for="title">titre</label>
+						<input type="text" id="newWorkTitle">
+						<label for="category">Catégorie</label>
+						<select id="newWorkCategory">
+							<option value="Objets" id='1'>Objets</option>
+							<option value="Appartements" id='2'>Appartements</option>
+							<option value="Hotels et restaurants" id='3'>Hotels et restaurants</option> 	
+						</select>
+					</form>
+					<button id="js-validateNewWork" class="js-exeButton">Valider</button>
+				</div>
+			</div>
+		</div>
 	<header>
 		<h1>Sophie Bluel <span>ARCHITECTE D'INTÉRIEUR</span></h1>
 		<nav>
@@ -59,11 +84,11 @@
 		</div>
 		<section id="portfolio">
 			<h2>Mes projets
-			<button class="js-edit" style="display:none;"><i class="fas fa-pen-to-square fa-lg"></i><span>modifier</span></button>
+			<button id="js-edit" style="display:none;"><i class="fas fa-pen-to-square fa-lg"></i><span>modifier</span></button>
 			</h2>
-			<div class="js-filters">
+			<div id="js-filters">
 			</div>
-			<div class="js-gallery">
+			<div id="js-gallery">
 			</div>
 		</section>
 		<section id="contact">
@@ -80,7 +105,6 @@
 			</form>
 		</section>
 	</main>
-
 	<footer>
 		<nav>
 			<ul>
@@ -92,3 +116,17 @@
 </body>
 
 </html>
+
+<!-- <label id="formTitle">Ajout photo</label>
+						<i class="fa-sharp fa-regular fa-image"></i>
+						<input id="addPicture" type="file" id="file" name="image">
+						<div id="addedPicture"><label for="file">+Ajouter photo</label></div>
+						<p>jng, png: 4mo max</p> 
+						<label for="title">titre</label>
+						<input type="text">
+						<label for="category">Catégorie</label>
+						<select id=NewWorkCategory>
+							<option value="Objets" id='1'>Objets</option>
+							<option value="Appartements" id='2'>Appartements</option>
+							<option value="Hotels et restaurants" id='3'>Hotels et restaurants</option>
+						</select> -->

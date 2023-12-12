@@ -1,30 +1,54 @@
-document.querySelector('.js-edit').addEventListener('click', (event) => {
-  openModal(event);
-});
-const openModal = (event) => {
+document.getElementById('js-edit').addEventListener('click', (event) => {
   event.preventDefault();
-  modal = document.querySelector('.js-modal');
+  openModal(event)
+})
+const openModal = (event) => {
+  modal = document.getElementById('js-modal');
   modal.style.display = null;
   modal.addEventListener('click', closeModal);
-  modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
-  modal
-    .querySelector('.js-modal-stop')
+  document.getElementById('js-modalClose').addEventListener('click', closeModal);
+  document
+    .querySelector('.js-modalStop')
     .addEventListener('click', stopPropagation);
-    document.querySelector('.js-main-container').classList.add('js-modal-open');
-};
+  document.getElementById('js-mainContainer').classList.add('js-modalOpen')
+  document.getElementById('js-addNewWork').addEventListener('click', (event) => {
+    event.preventDefault()
+    newWorkModal()
+  document.getElementById('js-modalReturn').addEventListener('click', (event) => {
+    event.preventDefault()
+    returnModal()
+    })
+  })
+}
+const newWorkModal = () => {
+  document.getElementById('js-modalReturn').style.visibility = 'visible'
+  document.getElementById('js-modalReturn').addEventListener('click', returnModal);
+  document.getElementById('js-deleteModal').style.display = 'none';
+  document.getElementById('js-addModal').style.display = null;
+  document.getElementById('workCategory')
+  document.getElementById('js-validateNewWork').addEventListener('click', (event) => {
+    event.preventDefault()
+    setNewWork()
+  })
+}
+const returnModal = () => {
+  document.getElementById('js-modalReturn').style.visibility = 'hidden'
+  document.getElementById('js-deleteModal').style.display = null;
+  document.getElementById('js-addModal').style.display = 'none';
+}
 const closeModal = (event) => {
   if (modal === null) return;
   event.preventDefault();
   modal.style.display = 'none';
   modal.removeEventListener('click', closeModal);
-  modal
-    .querySelector('.js-modal-close')
+  document
+    .getElementById('js-modalClose')
     .removeEventListener('click', closeModal);
-  modal
-    .querySelector('.js-modal-stop')
+  document
+    .querySelector('.js-modalStop')
     .removeEventListener('click', stopPropagation);
   modal = null;
-  document.querySelector('.js-main-container').classList.remove('js-modal-open');
+  document.getElementById('js-mainContainer').classList.remove('js-modalOpen');
 };
 const stopPropagation = (event) => {
   event.stopPropagation()
@@ -42,50 +66,26 @@ const deleteWork = async (id) => {
     console.log(error);
   });
 };
-
-
-// const sendProjectBtn = document.querySelector(".js-modal-wrapper input");
-// sendProjectBtn.addEventListener("submit", (event) => {
-//   event.preventDefault();
-//   postApiProject();
-// });
-
-// const formData = new FormData();
-// formData.append("category", document.querySelector("#category.id").value);
-// formData.append("category", document.querySelector("#category.name").value);
-// formData.append("categoryId", document.querySelector("#categoryId").value);     
-// formData.append("imageUrl", document.querySelector("#.img").files);
-// formData.append("title", document.querySelector("#title.img").value);
-// formData.append("userId", document.querySelector("#userId").value);
-
-// const title=document.getElementById("title").value;
-// const categorie=document.getElementById("category").value;
-// const imageElement = document.createElement("img");
-// imageElement.src = document.querySelector(".js-modalGallery").src;
-// imageElement.alt = title;
-// const titleElement = document.createElement("p");
-// titleElement.innerText = title;
-// const figure = document.createElement("work");
-// figure.setAttribute("id", 12);
-// figure.classList.add("category.id"+categorie,"work");
-// figure.appendChild(imageElement);
-// figure.appendChild(titleElement);
-// sectionGallery.appendChild(figure);
-
-
-// const postApiProject = async () => {
-//   return await fetch(`${apiUrl}works`, {
-//     method: "POST",
-//     body: formData,
-//     headers: { 
-//         "Authorization": "Bearer token",
-//         "Content-Type": "multipart/form-data" },
-//   })
-    
-//   .then((res) => res.json())
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
+const setNewWork = () => {
+  const formData = new FormData();
+  formData.append("imageUrl", document.getElementById("newWorkPicture").files);
+  formData.append("title", document.getElementById("newWorkTitle").value);
+  formData.append("category", document.getElementById("newWorkCategory").value);
+  postNewWork(formData)
+}
+const postNewWork = async (formData) => {
+  const token = sessionStorage.getItem('token')
+  return await fetch(`${apiUrl}works`, {
+    method: "POST",
+    body: multipart/form-data,
+    headers: { 
+        "Authorization": `Bearer ${token}`,
+    }
+  })
+  .then((res) => res.json())
+  .catch((error) => {
+    console.log(error);
+  });
+};
 
     
