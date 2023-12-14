@@ -28,15 +28,15 @@ article, aside, details, figcaption, figure,
 hgroup, menu, nav, section {
 	display: block
 }
-header, h1, nav ul, #js-filters, #contact form, #login, 
-#login h2, #login form, #js-editMode, #js-editMode h4, #js-edit, #js-modalWrapper,
-#js-deleteModal, #js-addModal, #portfolio, #portfolio h2, #js-modalGallery,
-#js-modalHead, #js-formData, #pictureArea {
+header, h1, nav ul, #filters, #contact form, #login, 
+#login h2, #login form,#editMode, #editMode h4, #edit,
+#modalDeleteWork, #modalAddWork, #portfolio, #portfolio h2,
+#modalHead, #formData, #pictureArea, #modalNewWorkForm, #newWorkImageArea {
 	display: flex
 }
 
-#js-modalWrapper, #js-editMode, .login form, #login, #login h2, #js-filters,
- #portfolio h2, #pictureArea {
+#editMode, .login form, #login, #login h2, #filters,
+ #portfolio h2, #newWorkImageArea {
 	justify-content: center;
 }
 
@@ -143,18 +143,18 @@ nav li img {
 #portfolio h2 {
 	gap:0.9em;
 }
-#js-edit {
+#edit {
 	background: none;
 	border: none;
 	align-items: center;
 	gap:0.8em;
 	cursor: pointer;
 }
-#js-filters {
+#filters {
 	gap: 0.6em;
 	margin: 2em 0
 }
-#js-filters button {
+#filters button {
 	font-family: 'Syne';
 	font-size: 1em;
 	color: #1D6154;
@@ -164,26 +164,26 @@ nav li img {
     border-color: #1D6154;
     border-radius: 1.6em;
 }
-#js-filters button:focus, #filters button:active {
+#filters button:focus, #filters button:active {
 	background-color: #1D6154;
 	color: white
 }
-.js-filters .Tous {
+.filters .Tous {
 	padding: 0 1.8em
 }
-.js-filters .Objets {
+.filters .Objets {
 	padding: 0 1.2em
 }
-.js-filters .Appartements {
+.filters .Appartements {
 	padding: 0 0.8em
 }
-#js-gallery {
+#gallery {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px
 }
-#js-gallery img {
+#gallery img {
 	width: 100%
 }
 #contact {
@@ -263,75 +263,74 @@ footer nav ul {
 #login form a {
 	text-align: center;
 }
-#js-editMode {
+
+#editMode {
 	align-items: center;
 	width: 100%;
 	height: 3.7em;
 	background-color: black;
 }
-#js-editMode h4 {
+#editMode h4 {
 	align-items: center;
 	background: none;
 	color: white;
 	border: none;
 	gap: 0.8em;
 }
-
-#js-modalHead {
-	justify-content: space-between;
+.modalOpen {
+	position: absolute;
+	z-index: 1;
+	top: 0; 
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: hsla(0, 0%, 0%, 0.5);
+	overflow-y: hidden;
 }
-#js-modalHead button {
-	background: none;
-	border: none;
-	margin: 2em 2em 0em ;
-	cursor: pointer;
-}
-#pictureArea {
-	flex-direction: column;
-	text-align: center;
-	border: solid 1em black;
-}
-#js-modalWrapper {
+#modalContainer {
 	position: fixed;
 	z-index: 2;
-	overflow: auto;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 45.5em;
 	height: 49em;
-	flex-direction: column;
 	box-sizing: border-box;
 	border-radius: 1em;
 	background-color: white;
+	text-align: center;
 }
-#js-modalWrapper h3 {
+#modalHead {
+	justify-content: space-between;
+}
+#modalHead button {
+	background: none;
+	border: none;
+	margin: 2em 2em 1em ;
+	cursor: pointer;
+}
+#modalContainer h3 {
 	text-align: center;
 	font-size: xx-large;
 }
-#js-deleteModal, #js-addModal {
+#modalDeleteWork, #modalAddWork {
 	flex-direction: column;
-	justify-content: space-between;
+	margin: 0 7.5em 0 7.5em;
 }
-#js-formData {
-	flex-direction: column;
-	height: 70%;
-	margin: 3em 7.5em 0 7.5em;
-}
-#js-modalGallery {
-	flex-wrap: wrap;
+#modalGallery {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-auto-rows: min-content;
 	column-gap: 0.5em;
-	height: 70%;
-	margin: 3em 7.5em 0 7.5em;
-	border-bottom: solid 0.2em; 
-	border-color: #B3B3B3;
+	row-gap: 2em;
+	margin: 4em 0;
 }
-#js-modalGallery img {
+#modalGallery img {
 	position: relative;
 	height: 7.8em;
 	width: 5.7em;
 }
-.js-trashButton {
+.trashButton {
 	position: absolute;
 	z-index: 1;
 	margin: 0.5em 0.5em 0 4em;
@@ -342,25 +341,74 @@ footer nav ul {
 	color: white;
 	cursor: pointer;
 }
-.js-exeButton {
+#modalNewWorkForm {
+	flex-direction: column;
+	justify-content: space-between;
+	text-align: left;
+}
+#modalNewWorkForm label {
+	margin: 2em 0 1em 0
+}
+#newWorkImageArea {
+	flex-direction: column;
+	justify-content: space-around;
+	text-align: center;
+	margin-top: 3em;
+	background-color: #E8F1F6;
+	width: 100%;
+	height: 12em;	
+}
+#newWorkImageArea i{
+	color: #CBD6DC;
+}	
+#newWorkImage {
+	background-color: #CBD6DC;
+	border-radius: 1.5em;
+	height: 3em;
+}
+#newWorkImageArea button {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: #306685;
+	background-color: #CBD6DC;
+	border-radius: 1.5em;
+	border: none; 
+	cursor: pointer;
+	width: 18em;
+	padding: 0.6em 4em;
+	margin: 2.5em 0;
+}
+#formData {
+	flex-direction: column;
+	height: 60%;
+	margin: 3em 7.5em 0 7.5em;
+}
+#newWorkTitle, #newWorkCategory {
+	height: 3.125em;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09)
+}
+
+.modalFooter {
+	position: fixed;
+	width: 67%;
+	bottom: 0;
+	height: 8em;
+	margin: 0 7.5em;
+	text-align: center;
+	border-top: solid 0.2em; 
+	border-color: #B3B3B3;
+}
+.exeButton {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	border-radius: 60px; 
+	border-radius: 1.5em;
+	border: none; 
 	cursor: pointer;
-	width:fit-content;
-	text-align: center;
+	width: 18em;
 	padding: 0.6em 4em;
-	margin: 2.5em auto	
-}
-.js-modalOpen {
-	position: absolute;
-	z-index: 1;
-	top: 0; 
-	left: 0;
-	height: 100%;
-	width: 100%;
-	background-color: hsla(0, 0%, 0%, 0.5);
-	overflow-y: hidden;
+	margin: 2.5em 0;
 }
