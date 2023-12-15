@@ -343,28 +343,38 @@ footer nav ul {
 }
 #modalNewWorkForm {
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: space-around;
 	text-align: left;
 }
 #modalNewWorkForm label {
-	margin: 2em 0 1em 0
+	margin: 2em 0 1em 0;
+	font-weight: bold;
 }
 #newWorkImageArea {
 	flex-direction: column;
-	justify-content: space-around;
 	text-align: center;
+	align-items: center;
 	margin-top: 3em;
 	background-color: #E8F1F6;
 	width: 100%;
-	height: 12em;	
+	height: 15em;
+	font-size: smaller;
 }
 #newWorkImageArea i{
 	color: #CBD6DC;
 }	
-#newWorkImage {
+#newWorkImageArea label{
+	margin-top: 0;
+}
+#addWorkImage {
 	background-color: #CBD6DC;
+	color:#306685;
+	border: none;
 	border-radius: 1.5em;
-	height: 3em;
+	font-weight: 550;
+	letter-spacing: 0.05em;
+	padding: 0.8em 3em;
+	margin: 0.5em 0 0.5em 0;
 }
 #newWorkImageArea button {
 	font-family: 'Syne';

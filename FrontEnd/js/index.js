@@ -154,7 +154,9 @@ const modalAddWork = () => {
   document.getElementById('modalAddButton').style.display = 'none';
   document.getElementById('modalValidateButton').style.display = null;
   document.getElementById('modalValidateButton').addEventListener('click', setNewWork)
-
+  document.getElementById('addWorkImage').addEventListener('click', () => {
+    document.getElementById('newWorkImage').click()
+  }) 
 }
 
 const returnModalGallery = () => {
@@ -193,13 +195,37 @@ const deleteWork = async (id) => {
   })
 }
 
+const checkForm = () => {
+  image = document.forms['modalNewWorkForm']['image'];
+  title = document.forms['modalNewWorkForm']['title'];
+  category = document.forms['modalNewWorkForm']['category'];
+  if (image.file == '') {
+    alert('Please add an image')
+    image.focus()
+    return false
+  }
+  if (title.value == '') {
+    alert('Please add a Title')
+    title.focus()
+    return false
+  }  
+  if (category.value == '') {
+    alert('Please select a Category')
+    category.focus()
+    return false
+  }
+  return true
+}
+
 const setNewWork = () => {
+  if (checkForm() = true) {
   formData = new FormData()
   formData.append("imageUrl", document.getElementById("newWorkImage").files)
   formData.append("title", document.getElementById("newWorkTitle").value)
   formData.append("category", document.getElementById("newWorkCategory").value)
   formData = new XMLHttpRequest()
   postNewWork(formData)
+  }
 }
 
 const postNewWork = async (formData) => {

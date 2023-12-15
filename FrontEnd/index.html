@@ -66,15 +66,15 @@
 						<h3 id="modalTitleForm">Ajout photo</h3>
 						<form id="modalNewWorkForm">
 							<div id="newWorkImageArea">
-								<i class="fa-sharp fa-regular fa-image fa-5x"></i>
-								<input id="newWorkImage" type="file" name="image" style="display:none;">
-								<button id="addWorkImage">+ Ajouter photo</button>
-								<span>jng, png: 4mo max</span>
+								<label for="image"><i class="fa-sharp fa-regular fa-image fa-6x"></i></label>
+								<input type="file" name="image" id="newWorkImage" accept=".png, .jpg, .jpeg" style="display:none;">
+								<input id="addWorkImage" type="button" value="+ Ajouter photo">
+								<p>jng, png: 4mo max</p>
 							</div> 
 							<label for="title">Titre</label>
-							<input type="text" id="newWorkTitle">
+							<input type="text" name="title" id="newWorkTitle">
 							<label for="category">Catégorie</label>
-							<select id="newWorkCategory">
+							<select id="newWorkCategory" name="category">
 								<option value="" disabled selected hidden></option>
 								<option value="Objets" id='1'>Objets</option>
 								<option value="Appartements" id='2'>Appartements</option>
