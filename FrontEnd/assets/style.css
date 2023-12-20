@@ -366,7 +366,11 @@ footer nav ul {
 #newWorkImageArea label{
 	margin-top: 0;
 }
-#addWorkImage {
+#preview {
+	width: 12em;
+	height: 15em;
+}
+#addNewWorkButton {
 	background-color: #CBD6DC;
 	color:#306685;
 	border: none;
@@ -375,18 +379,6 @@ footer nav ul {
 	letter-spacing: 0.05em;
 	padding: 0.8em 3em;
 	margin: 0.5em 0 0.5em 0;
-}
-#newWorkImageArea button {
-	font-family: 'Syne';
-	font-weight: 700;
-	color: #306685;
-	background-color: #CBD6DC;
-	border-radius: 1.5em;
-	border: none; 
-	cursor: pointer;
-	width: 18em;
-	padding: 0.6em 4em;
-	margin: 2.5em 0;
 }
 #formData {
 	flex-direction: column;
@@ -399,7 +391,6 @@ footer nav ul {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09)
 }
-
 .modalFooter {
 	position: fixed;
 	width: 67%;

@@ -11,6 +11,11 @@ login();
 const authentification = async () => {
   const email = document.getElementById("mail").value;
   const password = document.getElementById("pass").value;
+  console.log(email)
+  console.log(password)
+  // email = ''
+  // password = ''
+  sessionStorage.removeItem("token")
   return await fetch(`${apiUrl}users/login`, {
     method: "POST",
     body: JSON.stringify({
@@ -27,8 +32,10 @@ const authentification = async () => {
       if (data.error) {
         alert("Error Password or E-mail");
       } else {
+        if (data.token) {
         sessionStorage.setItem("token", data.token);
         window.location.assign("./index.html");
+        }
       }
     })
     .catch((error) => {

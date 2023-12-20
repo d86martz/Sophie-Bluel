@@ -154,9 +154,20 @@ const modalAddWork = () => {
   document.getElementById('modalAddButton').style.display = 'none';
   document.getElementById('modalValidateButton').style.display = null;
   document.getElementById('modalValidateButton').addEventListener('click', setNewWork)
-  document.getElementById('addWorkImage').addEventListener('click', () => {
-    document.getElementById('newWorkImage').click()
-  }) 
+  document.getElementById('addNewWorkImage').addEventListener('change', displayPreview)
+}
+ 
+const displayPreview = () => {
+  const preview = document.getElementById('preview')
+  const file = document.getElementById('addNewWorkImage').files[0];
+  const image = document.createElement('img')
+  image.setAttribute('id', 'preview')
+  image.src = URL.createObjectURL(file)
+  if (file) {
+      document.getElementById('newWorkImageArea').style.display = 'none';
+      preview.style.display = null;
+      preview.appendChild(image)
+  }    
 }
 
 const returnModalGallery = () => {
@@ -196,34 +207,37 @@ const deleteWork = async (id) => {
 }
 
 const checkForm = () => {
-  image = document.forms['modalNewWorkForm']['image'];
-  title = document.forms['modalNewWorkForm']['title'];
-  category = document.forms['modalNewWorkForm']['category'];
-  if (image.file == '') {
-    alert('Please add an image')
+  image = document.getElementById('preview');
+  title = document.getElementById('newWorkTitle');
+  category = document.getElementById('newWorkCategory');
+  if (image == '') {
+    alert("incomplet")
     image.focus()
     return false
   }
   if (title.value == '') {
-    alert('Please add a Title')
+    alert("incomplet")
     title.focus()
     return false
   }  
   if (category.value == '') {
-    alert('Please select a Category')
+    alert("incomplet")
     category.focus()
     return false
   }
+  alert("complet")
   return true
 }
 
 const setNewWork = () => {
-  if (checkForm() = true) {
+  if (checkForm() === true) {
   formData = new FormData()
-  formData.append("imageUrl", document.getElementById("newWorkImage").files)
+  formData.append("imageUrl", document.getElementById("addNewWorkImage").files[0])
   formData.append("title", document.getElementById("newWorkTitle").value)
   formData.append("category", document.getElementById("newWorkCategory").value)
+  console.log(formData)
   formData = new XMLHttpRequest()
+  console.log(formData)
   postNewWork(formData)
   }
 }
