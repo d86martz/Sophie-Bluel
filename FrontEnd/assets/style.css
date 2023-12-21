@@ -366,7 +366,7 @@ footer nav ul {
 #newWorkImageArea label{
 	margin-top: 0;
 }
-#preview {
+#imagePreview {
 	width: 12em;
 	height: 15em;
 }
@@ -412,4 +412,8 @@ footer nav ul {
 	width: 18em;
 	padding: 0.6em 4em;
 	margin: 2.5em 0;
+}
+.incomplete {
+	background-color: rgb(246, 182, 182);
+	border:solid 0.2em rgb(253, 3, 3);
 }
