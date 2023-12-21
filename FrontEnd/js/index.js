@@ -210,6 +210,7 @@ const checkForm = () => {
   image = document.getElementById('preview');
   title = document.getElementById('newWorkTitle');
   category = document.getElementById('newWorkCategory');
+  console.log(category)
   if (image == '') {
     alert("incomplet")
     image.focus()
@@ -232,11 +233,9 @@ const checkForm = () => {
 const setNewWork = () => {
   if (checkForm() === true) {
   formData = new FormData()
-  formData.append("imageUrl", document.getElementById("addNewWorkImage").files[0])
+  formData.append("image", document.getElementById("addNewWorkImage").files[0])
   formData.append("title", document.getElementById("newWorkTitle").value)
-  formData.append("category", document.getElementById("newWorkCategory").value)
-  console.log(formData)
-  formData = new XMLHttpRequest()
+  formData.append("category", document.getElementById('newWorkCategory').selectedOptions[0].id)
   console.log(formData)
   postNewWork(formData)
   }
@@ -246,7 +245,7 @@ const postNewWork = async (formData) => {
   return await fetch(`${apiUrl}works`, {
     method: "POST",
     headers: { 
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`
     },
     body: formData
   })
