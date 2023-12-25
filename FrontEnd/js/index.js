@@ -4,7 +4,7 @@ const token = sessionStorage.getItem('token')                 //Url of API
 const userConnected = () => {
   if(sessionStorage.getItem('token') !== null) {
     document.getElementById('editMode').style.display = null
-    document.getElementById('edit').style.display = null
+    document.getElementById('editButton').style.display = null
     document.getElementById('filters').style.visibility = 'hidden'
   }
 }
@@ -128,7 +128,7 @@ const onload = () => {
   allBtn.focus()      //Selecting the "All" button
 }
 
-document.getElementById('edit').addEventListener('click', (event) => {
+document.getElementById('editButton').addEventListener('click', (event) => {
   event.preventDefault();
   openModal()
 })
@@ -139,13 +139,17 @@ const openModal = () => {
   modal.addEventListener('click', closeModal);
   document.getElementById('modalDeleteWork').style.display = null;
   document.getElementById('modalAddButton').style.display = null;
-  document.getElementById('mainContainer').classList.add('modalOpen')
+  document.getElementById('mainContainer').classList.add('overlay')
   document.querySelector('.modalStop').addEventListener('click', stopPropagation);
   document.getElementById('modalAddButton').addEventListener('click', modalAddWork)
-  document.getElementById('modalCloseButton').addEventListener('click', closeModal); 
+  document.getElementById('modalCloseButton').addEventListener('click', closeModal);
   document.getElementById('modalReturnButton').addEventListener('click', returnModalGallery)
   document.getElementById('modalValidateButton').addEventListener('click', setNewWork)
-  document.getElementById('addNewWorkImage').addEventListener('change', displayPreview)
+  document.getElementById('newWorkImage').addEventListener('change', displayPreview)
+}
+
+const stopPropagation = (event) => {
+  event.stopPropagation()
 }
 
 const modalAddWork = () => {
@@ -154,8 +158,9 @@ const modalAddWork = () => {
   document.getElementById('modalAddWork').style.display = null;
   document.getElementById('modalAddButton').style.display = 'none';
   document.getElementById('modalValidateButton').style.display = null;
-  document.getElementById('modalCloseButton').addEventListener('click', clearForm); 
+  document.getElementById('modalCloseButton').addEventListener('click', clearForm);
   document.getElementById('modalReturnButton').addEventListener('click', clearForm)
+  document.getElementById('modalValidateButton').addEventListener('click', setNewWork)
 }
  
 const returnModalGallery = () => {
@@ -172,63 +177,52 @@ const closeModal = () => {
   document.getElementById('modalReturnButton').style.visibility = 'hidden'
   document.getElementById('modalAddWork').style.display = 'none';
   document.getElementById('modalValidateButton').style.display = 'none';
-  document.getElementById('mainContainer').classList.remove('modalOpen');
-  document.getElementById('addNewWorkImage').removeEventListener('change', displayPreview);
+  document.getElementById('mainContainer').classList.remove('overlay');
+  document.getElementById('newWorkImage').removeEventListener('change', displayPreview);
   document.querySelector('.modalStop').removeEventListener('click', stopPropagation);
-  document.getElementById('modalCloseButton').removeEventListener('click', closeModal && clearForm);
-  document.getElementById('modalValidateButton').removeEventListener('click', setNewWork && clearForm);
-  document.getElementById('modalReturnButton').removeEventListener('click', returnModalGallery && clearForm);
+  document.getElementById('modalCloseButton').removeEventListener('click', closeModal );
+  document.getElementById('modalValidateButton').removeEventListener('click', setNewWork );
+  document.getElementById('modalReturnButton').removeEventListener('click', returnModalGallery );
+  document.getElementById('modalCloseButton').removeEventListener('click', clearForm);
+  document.getElementById('modalValidateButton').removeEventListener('click', clearForm);
+  document.getElementById('modalReturnButton').removeEventListener('click', clearForm);
 }
 
-const stopPropagation = (event) => {
-  event.stopPropagation()
-}
+
 
 const displayPreview = () => {
   const preview = document.getElementById('preview')
-  const file = document.getElementById('addNewWorkImage').files[0];
+  const file = document.getElementById('newWorkImage').files[0];
   const image = document.createElement('img')
   image.setAttribute('id', 'imagePreview')
   image.src = URL.createObjectURL(file)
   if (file) {
-      document.getElementById('newWorkImageArea').style.display = 'none';
+      document.getElementById('setNewWorkImage').style.display = 'none';
       preview.style.display = null;
       preview.appendChild(image)
   }    
 }
 
 const checkForm = () => {
-  image = document.getElementById('addNewWorkImage');
-  imageArea = document.getElementById('newWorkImageArea');
-  title = document.getElementById('newWorkTitle');
-  category = document.getElementById('newWorkCategory');
-  if (image.value == '') {
-    imageArea.focus()
-    imageArea.classList.add("incomplete")
-    return false
-  }
-  if (title.value == '') {
-    title.focus()
-    title.classList.add("incomplete")
-    return false
-  }  
-  if (category.value == '') {
-    category.classList.add("incomplete")
-    category.focus()
-    return false
-  }
-  // document.getElementsByClassName('formInput').forEach(element => {
-  //   if (element.classList.contains('incomplete')) {
-  //     element.classList.remove('incomplete')
-  //   }
-  // })
-  return true
+  document.querySelectorAll('.formInput').forEach(input => {
+    input.addEventListener('change', (event) => {
+      target = event.target.value
+      if(target === "") {
+        input.classList.add('invalid')
+        return false
+      }
+      else { 
+        input.classList.remove('invalid')
+        return true
+      }
+    })  
+  })  
 }
 
 const clearForm = () => {
-  document.getElementById('addNewWorkImage').value = '';
+  document.getElementById('newWorkImage').value = '';
   document.getElementById('preview').innerHTML = '';
-  document.getElementById('newWorkImageArea').style.display = null;
+  document.getElementById('setNewWorkImage').style.display = null;
   document.getElementById('preview').style.display = 'none';
   document.getElementById('newWorkTitle').value = '';
   document.getElementById('newWorkCategory').selectedIndex = 0;
@@ -242,11 +236,7 @@ const deleteWork = async (id) => {
     }
   })
   .then((res) => res.json())
-  .then((res) => { 
-    if (res.status === 200){ 
-    alert("Le projet à était supprimé")
-    }
-  })
+  .then(alert("Le projet a était supprimé"))
   .catch((error) => {
     console.log(error)
   })
@@ -255,7 +245,7 @@ const deleteWork = async (id) => {
 const setNewWork = () => {
   if (checkForm() === true) {
   formData = new FormData()
-  formData.append("image", document.getElementById("addNewWorkImage").files[0])
+  formData.append("image", document.getElementById("newWorkImage").files[0])
   formData.append("title", document.getElementById("newWorkTitle").value)
   formData.append("category", document.getElementById('newWorkCategory').selectedOptions[0].id)
   postNewWork(formData)
@@ -272,11 +262,7 @@ const postNewWork = async (formData) => {
     body: formData
   })
   .then((res) => res.json())
-  .then((res) => { 
-    if (res.status === 201) {
-    alert("Le projet à était ajouté")
-    }
-  })
+  .then(alert("Le projet a était ajouté"))
   .catch((error) => {
     console.log(error)
   })

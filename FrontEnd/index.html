@@ -14,7 +14,7 @@
 	<script src="https://kit.fontawesome.com/cd7db66424.js" crossorigin="anonymous"></script>
 	<script defer src="./js/index.js"></script>
 </head>
-
+ 
 <body>
 	<div id="mainContainer">
 		<div id="editMode" style="display:none;">
@@ -49,12 +49,12 @@
 		</div>
 		<section id="portfolio">
 			<h2>Mes projets
-			<button id="edit" style="display:none;"><i class="fas fa-pen-to-square fa-lg"></i><span>modifier</span></button>
+			<button id="editButton" style="display:none;"><i class="fas fa-pen-to-square fa-lg"></i><span>modifier</span></button>
 			</h2>
 			<div id="modal" style="display:none;">
 				<div id="modalContainer" class="modalStop">
 					<div id="modalHead">
-						<button id="modalReturnButton" style="visibility:hidden;"><i class="fas fas fa-arrow-left fa-2x"></i></button>
+						<button id="modalReturnButton"><i class="fas fas fa-arrow-left fa-2x"></i></button>
 						<button id="modalCloseButton"><i class="fas fa-xmark fa-2x"></i></button>	
 					</div>
 					<div id="modalDeleteWork">
@@ -66,17 +66,19 @@
 						<h3 id="modalTitleForm">Ajout photo</h3>
 						<form id="modalNewWorkForm">
 							<div id="newWorkImageArea">
-								<label for="image" id="previewArea"><i class="fa-sharp fa-regular fa-image fa-6x"></i></label>
-								<label for="addNewWorkImage" id="addNewWorkButton">+ Ajouter photo</label>
-								<input type="file" id="addNewWorkImage" class="formInput" accept=".png, .jpg, .jpeg" style="display:none;">
-								<p>jng, png: 4mo max</p>
+								<div id="setNewWorkImage">
+									<label for="image" id="imageLabel"><i class="fa-sharp fa-regular fa-image fa-6x"></i></label>
+									<label for="newWorkImage" id="newWorkButton">+ Ajouter photo</label>
+									<input type="file" id="newWorkImage" accept=".png, .jpg, .jpeg"  class="formInput">
+									<p>jng, png: 4mo max</p>
+								</div>
+								<div id="preview" style="display:none;">
+								</div>
 							</div>
-							<div id="preview" style="display:none;">
-							</div>
-							<label for="title">Titre</label>
-							<input type="text" id="newWorkTitle" class="formInput">
-							<label for="category">Catégorie</label>
-							<select id="newWorkCategory" class="formInput">
+							<label for="title" id="titleLabel">Titre</label>
+							<input type="text" id="newWorkTitle"  class="formInput">
+							<label for="category" id="categoryLabel">Catégorie</label>
+							<select id="newWorkCategory"  class="formInput">
 								<option value="" disabled selected hidden>Sélectionner une catégorie</option>
 								<option value="Objets" id='1'>Objets</option>
 								<option value="Appartements" id='2'>Appartements</option>

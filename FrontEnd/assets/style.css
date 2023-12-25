@@ -29,17 +29,16 @@ hgroup, menu, nav, section {
 	display: block
 }
 header, h1, nav ul, #filters, #contact form, #login, 
-#login h2, #login form,#editMode, #editMode h4, #edit,
+#login h2, #login form,#editMode, #editMode h4, #editButton,
 #modalDeleteWork, #modalAddWork, #portfolio, #portfolio h2,
-#modalHead, #formData, #pictureArea, #modalNewWorkForm, #newWorkImageArea {
+#modalHead, #formData, #pictureArea, #modalNewWorkForm, 
+#newWorkImageArea, #setNewWorkImage {
 	display: flex
 }
-
 #editMode, .login form, #login, #login h2, #filters,
  #portfolio h2, #newWorkImageArea {
 	justify-content: center;
 }
-
 body {
 	line-height: 1
 }
@@ -143,7 +142,7 @@ nav li img {
 #portfolio h2 {
 	gap:0.9em;
 }
-#edit {
+#editButton {
 	background: none;
 	border: none;
 	align-items: center;
@@ -264,6 +263,8 @@ footer nav ul {
 	text-align: center;
 }
 
+	/* mode editor */
+
 #editMode {
 	align-items: center;
 	width: 100%;
@@ -277,6 +278,9 @@ footer nav ul {
 	border: none;
 	gap: 0.8em;
 }
+
+	/* Modal */
+
 .modalOpen {
 	position: absolute;
 	z-index: 1;
@@ -284,8 +288,10 @@ footer nav ul {
 	left: 0;
 	height: 100%;
 	width: 100%;
+}
+.overlay {
 	background-color: hsla(0, 0%, 0%, 0.5);
-	overflow-y: hidden;
+	z-index: 2;
 }
 #modalContainer {
 	position: fixed;
@@ -308,6 +314,9 @@ footer nav ul {
 	border: none;
 	margin: 2em 2em 1em ;
 	cursor: pointer;
+}
+#modalReturnButton {
+	visibility:hidden;
 }
 #modalContainer h3 {
 	text-align: center;
@@ -360,6 +369,12 @@ footer nav ul {
 	height: 15em;
 	font-size: smaller;
 }
+#setNewWorkImage {
+	flex-direction: column;
+}
+[required] {
+	border: solid 0.2em red
+}
 #newWorkImageArea i{
 	color: #CBD6DC;
 }	
@@ -370,7 +385,7 @@ footer nav ul {
 	width: 12em;
 	height: 15em;
 }
-#addNewWorkButton {
+#newWorkButton {
 	background-color: #CBD6DC;
 	color:#306685;
 	border: none;
@@ -384,6 +399,12 @@ footer nav ul {
 	flex-direction: column;
 	height: 60%;
 	margin: 3em 7.5em 0 7.5em;
+}
+#newWorkImage {
+	display:none;
+}
+input:invalid {
+	border: 0.2em solid red
 }
 #newWorkTitle, #newWorkCategory {
 	height: 3.125em;
@@ -412,8 +433,4 @@ footer nav ul {
 	width: 18em;
 	padding: 0.6em 4em;
 	margin: 2.5em 0;
-}
-.incomplete {
-	background-color: rgb(246, 182, 182);
-	border:solid 0.2em rgb(253, 3, 3);
 }
