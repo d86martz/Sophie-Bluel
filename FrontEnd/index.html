@@ -65,25 +65,29 @@
 					<div id="modalAddWork" style="display:none;">
 						<h3 id="modalTitleForm">Ajout photo</h3>
 						<form id="modalNewWorkForm">
-							<div id="newWorkImageArea">
+							<div class="formElement">
 								<div id="setNewWorkImage">
 									<label for="image" id="imageLabel"><i class="fa-sharp fa-regular fa-image fa-6x"></i></label>
-									<label for="newWorkImage" id="newWorkButton">+ Ajouter photo</label>
+									<label for="newWorkImage" id="addWorkButton">+ Ajouter photo</label>
 									<input type="file" id="newWorkImage" accept=".png, .jpg, .jpeg"  class="formInput">
 									<p>jng, png: 4mo max</p>
 								</div>
 								<div id="preview" style="display:none;">
 								</div>
 							</div>
-							<label for="title" id="titleLabel">Titre</label>
-							<input type="text" id="newWorkTitle"  class="formInput">
-							<label for="category" id="categoryLabel">Catégorie</label>
-							<select id="newWorkCategory"  class="formInput">
-								<option value="" disabled selected hidden>Sélectionner une catégorie</option>
-								<option value="Objets" id='1'>Objets</option>
-								<option value="Appartements" id='2'>Appartements</option>
-								<option value="Hotels et restaurants" id='3'>Hotels et restaurants</option> 	
-							</select>
+							<div class="formElement">
+								<label for="title" id="titleLabel">Titre</label>
+								<input type="text" id="newWorkTitle"  class="formInput">
+							</div>
+							<div class ="formElement">
+								<label for="category" id="categoryLabel">Catégorie</label>
+								<select id="newWorkCategory"  class="formInput">
+									<option value="" disabled selected hidden>Sélectionner une catégorie</option>
+									<option value="Objets" id='1'>Objets</option>
+									<option value="Appartements" id='2'>Appartements</option>
+									<option value="Hotels et restaurants" id='3'>Hotels et restaurants</option> 	
+								</select>
+							</div>
 						</form>
 					</div>
 					<div class="modalFooter">

@@ -144,7 +144,7 @@ const openModal = () => {
   document.getElementById('modalAddButton').addEventListener('click', modalAddWork)
   document.getElementById('modalCloseButton').addEventListener('click', closeModal);
   document.getElementById('modalReturnButton').addEventListener('click', returnModalGallery)
-  document.getElementById('modalValidateButton').addEventListener('click', setNewWork)
+  document.getElementById('modalValidateButton').addEventListener('click', checkForm)
   document.getElementById('newWorkImage').addEventListener('change', displayPreview)
 }
 
@@ -160,7 +160,7 @@ const modalAddWork = () => {
   document.getElementById('modalValidateButton').style.display = null;
   document.getElementById('modalCloseButton').addEventListener('click', clearForm);
   document.getElementById('modalReturnButton').addEventListener('click', clearForm)
-  document.getElementById('modalValidateButton').addEventListener('click', setNewWork)
+  document.getElementById('modalValidateButton').addEventListener('click', checkForm)
 }
  
 const returnModalGallery = () => {
@@ -181,14 +181,12 @@ const closeModal = () => {
   document.getElementById('newWorkImage').removeEventListener('change', displayPreview);
   document.querySelector('.modalStop').removeEventListener('click', stopPropagation);
   document.getElementById('modalCloseButton').removeEventListener('click', closeModal );
-  document.getElementById('modalValidateButton').removeEventListener('click', setNewWork );
+  document.getElementById('modalValidateButton').removeEventListener('click', checkForm );
   document.getElementById('modalReturnButton').removeEventListener('click', returnModalGallery );
   document.getElementById('modalCloseButton').removeEventListener('click', clearForm);
   document.getElementById('modalValidateButton').removeEventListener('click', clearForm);
   document.getElementById('modalReturnButton').removeEventListener('click', clearForm);
 }
-
-
 
 const displayPreview = () => {
   const preview = document.getElementById('preview')
@@ -201,22 +199,6 @@ const displayPreview = () => {
       preview.style.display = null;
       preview.appendChild(image)
   }    
-}
-
-const checkForm = () => {
-  document.querySelectorAll('.formInput').forEach(input => {
-    input.addEventListener('change', (event) => {
-      target = event.target.value
-      if(target === "") {
-        input.classList.add('invalid')
-        return false
-      }
-      else { 
-        input.classList.remove('invalid')
-        return true
-      }
-    })  
-  })  
 }
 
 const clearForm = () => {
@@ -235,22 +217,36 @@ const deleteWork = async (id) => {
       'Authorization': `Bearer ${token}`
     }
   })
-  .then((res) => res.json())
-  .then(alert("Le projet a était supprimé"))
+  .then(res => {alert(res.data)})
   .catch((error) => {
     console.log(error)
   })
 }
 
+const checkForm = () => {
+  inputs = document.querySelectorAll('.formInput')
+  inputs.forEach(input => {
+    if (input.value === '' || input.selectedIndex === 0 ) {
+      input.parentElement.classList.add('invalid')
+      return false
+    }
+    else {
+      if (input.parentElement.classList.contains('invalid')) {
+        input.parentElement.classList.remove('invalid')
+      }
+      return true  
+    }
+  })
+  
+}
+
 const setNewWork = () => {
-  if (checkForm() === true) {
   formData = new FormData()
   formData.append("image", document.getElementById("newWorkImage").files[0])
   formData.append("title", document.getElementById("newWorkTitle").value)
   formData.append("category", document.getElementById('newWorkCategory').selectedOptions[0].id)
   postNewWork(formData)
   clearForm()
-  }
 }
 
 const postNewWork = async (formData) => {
@@ -261,8 +257,7 @@ const postNewWork = async (formData) => {
     },
     body: formData
   })
-  .then((res) => res.json())
-  .then(alert("Le projet a était ajouté"))
+  .then(res => {alert(res.data)})
   .catch((error) => {
     console.log(error)
   })
