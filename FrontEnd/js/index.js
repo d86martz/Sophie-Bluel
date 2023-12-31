@@ -144,7 +144,6 @@ const openModal = () => {
   document.getElementById('modalAddButton').addEventListener('click', modalAddWork)
   document.getElementById('modalCloseButton').addEventListener('click', closeModal);
   document.getElementById('modalReturnButton').addEventListener('click', returnModalGallery)
-  document.getElementById('modalValidateButton').addEventListener('click', checkForm)
   document.getElementById('newWorkImage').addEventListener('change', displayPreview)
 }
 
@@ -160,7 +159,7 @@ const modalAddWork = () => {
   document.getElementById('modalValidateButton').style.display = null;
   document.getElementById('modalCloseButton').addEventListener('click', clearForm);
   document.getElementById('modalReturnButton').addEventListener('click', clearForm)
-  document.getElementById('modalValidateButton').addEventListener('click', checkForm)
+  document.getElementById('modalValidateButton').addEventListener('click', setNewWork)
 }
  
 const returnModalGallery = () => {
@@ -217,7 +216,10 @@ const deleteWork = async (id) => {
       'Authorization': `Bearer ${token}`
     }
   })
-  .then(res => {alert(res.data)})
+  .then(res => {
+    if (res.status === 204) {
+      alert("Le projet est supprimé.")
+  }})
   .catch((error) => {
     console.log(error)
   })
@@ -225,19 +227,29 @@ const deleteWork = async (id) => {
 
 const checkForm = () => {
   inputs = document.querySelectorAll('.formInput')
-  inputs.forEach(input => {
-    if (input.value === '' || input.selectedIndex === 0 ) {
-      input.parentElement.classList.add('invalid')
-      return false
-    }
-    else {
-      if (input.parentElement.classList.contains('invalid')) {
-        input.parentElement.classList.remove('invalid')
-      }
-      return true  
-    }
-  })
-  
+  // inputs.forEach(input => {
+  //   console.log(checkInput(input))})
+  if (inputs.forEach(input => {
+    checkInput(input) === true
+  })) {
+    setNewWork()
+  }
+  else {
+    alert("Formulaire incomplet")
+  }
+}
+
+const checkInput = (input) => {
+  if (input.value === '' || input.selectedIndex === 0 ) {
+    input.parentElement.classList.add('invalid')
+    return false
+  }
+  if (input.parentElement.classList.contains('invalid')) {
+      input.parentElement.classList.remove('invalid')
+  }
+  else {
+    return true
+  }  
 }
 
 const setNewWork = () => {
@@ -257,7 +269,10 @@ const postNewWork = async (formData) => {
     },
     body: formData
   })
-  .then(res => {alert(res.data)})
+  .then(res => {
+    if (res.status === 201) {
+      alert("Le projet est ajouté.")
+  }})
   .catch((error) => {
     console.log(error)
   })
