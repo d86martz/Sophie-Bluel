@@ -159,7 +159,7 @@ const modalAddWork = () => {
   document.getElementById('modalValidateButton').style.display = null;
   document.getElementById('modalCloseButton').addEventListener('click', clearForm);
   document.getElementById('modalReturnButton').addEventListener('click', clearForm)
-  document.getElementById('modalValidateButton').addEventListener('click', setNewWork)
+  document.getElementById('modalValidateButton').addEventListener('click', checkForm)
 }
  
 const returnModalGallery = () => {
@@ -226,30 +226,27 @@ const deleteWork = async (id) => {
 }
 
 const checkForm = () => {
-  inputs = document.querySelectorAll('.formInput')
-  // inputs.forEach(input => {
-  //   console.log(checkInput(input))})
-  if (inputs.forEach(input => {
-    checkInput(input) === true
-  })) {
-    setNewWork()
+  const inputs = document.querySelectorAll('.formInput')
+  const checkList = []
+  inputs.forEach(input => {
+    checkList.push(checkInput(input))
+  })
+  if (checkList.includes(false) === true) {
+    alert("Formulaire incomplet") 
+  } else { 
+    setNewWork()  
   }
-  else {
-    alert("Formulaire incomplet")
-  }
-}
+}   
 
-const checkInput = (input) => {
+const checkInput = (input) => {  
   if (input.value === '' || input.selectedIndex === 0 ) {
     input.parentElement.classList.add('invalid')
     return false
-  }
-  if (input.parentElement.classList.contains('invalid')) {
+  } if (input.parentElement.classList.contains('invalid')) {
       input.parentElement.classList.remove('invalid')
-  }
-  else {
+  } else {
     return true
-  }  
+  }   
 }
 
 const setNewWork = () => {
