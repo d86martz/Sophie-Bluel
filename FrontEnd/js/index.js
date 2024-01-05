@@ -101,6 +101,7 @@ const figureCreation = (work) => {                    //Creating the Project Fig
   figure.appendChild(image)                                   //Added the Image Element in the Figure Element
   figure.appendChild(title)
   figure.setAttribute('id', work.id)
+  figure.setAttribute('class', "figure")
   document.getElementById('gallery').appendChild(figure)                                                  //Added the Title Element in the Figure Element                          //Added the element in the HTML section
 }
 
@@ -113,7 +114,7 @@ const modalFigureCreation = (work) => {                   //Creating the Project
   const figure = document.createElement('work')                             //Title Element Source
   figure.appendChild(button)
   figure.appendChild(image)
-  figure.setAttribute('id', work.id)                                //Added the Image Element in the Figure Element
+  figure.setAttribute('id', work.id)                              //Added the Image Element in the Figure Element
   document.getElementById('modalGallery').appendChild(figure)
   button.addEventListener('click', (event) => {
     event.preventDefault()
@@ -133,13 +134,21 @@ document.getElementById('editButton').addEventListener('click', (event) => {
   openModal()
 })
 
-const openModal = () => { 
-  modal = document.getElementById('modal');
+const openModal = () => {
+  const modal = document.getElementById('modal');
   modal.style.display = null;
-  modal.addEventListener('click', closeModal);
+  // document.addEventListener('click', function(e) {
+  //   if(e !== modal) {
+  //     closeModal()
+  //   }
+  // })
   document.getElementById('modalDeleteWork').style.display = null;
   document.getElementById('modalAddButton').style.display = null;
-  document.getElementById('mainContainer').classList.add('overlay')
+  document.getElementById('mainContainer').classList.add('overlay');
+  const figures = document.getElementsByClassName("figure");
+  for (let i = 0; i < figures.length; i++) {
+    figures.item(i).classList.add("imageOverlay");
+  } 
   document.querySelector('.modalStop').addEventListener('click', stopPropagation);
   document.getElementById('modalAddButton').addEventListener('click', modalAddWork)
   document.getElementById('modalCloseButton').addEventListener('click', closeModal);
@@ -172,11 +181,14 @@ const returnModalGallery = () => {
 
 const closeModal = () => {
   modal.style.display = 'none';
-  modal.removeEventListener('click', closeModal);
   document.getElementById('modalReturnButton').style.visibility = 'hidden'
   document.getElementById('modalAddWork').style.display = 'none';
   document.getElementById('modalValidateButton').style.display = 'none';
   document.getElementById('mainContainer').classList.remove('overlay');
+  const figures = document.getElementsByClassName("figure");
+  for (let i = 0; i < figures.length; i++) {
+    figures.item(i).classList.remove("imageOverlay");
+  }
   document.getElementById('newWorkImage').removeEventListener('change', displayPreview);
   document.querySelector('.modalStop').removeEventListener('click', stopPropagation);
   document.getElementById('modalCloseButton').removeEventListener('click', closeModal );
