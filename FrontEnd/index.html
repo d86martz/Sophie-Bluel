@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div id="mainContainer">
-		<div id="editMode" style="display:none;">
+		<div id="editMode" class="edition mask">
 			<h4><i class="fa-regular fa-pen-to-square fa-lg"></i><span>Mode édition</span></h4>
 		</div>
 	<header>
@@ -47,20 +47,20 @@
 		</div>
 		<section id="portfolio">
 			<h2>Mes projets
-			<button id="editButton" style="display:none;"><i class="fas fa-pen-to-square fa-lg"></i><span>modifier</span></button>
+			<button id="editButton" class="edition mask"><i class="fas fa-pen-to-square fa-lg"></i><span>modifier</span></button>
 			</h2>
-			<div id="modal" style="display:none;">
+			<div id="modal" class="mask modal">
 				<div id="modalContainer" class="modalStop">
 					<div id="modalHead">
 						<button id="modalReturnButton"><i class="fas fas fa-arrow-left fa-2x"></i></button>
 						<button id="modalCloseButton"><i class="fas fa-xmark fa-2x"></i></button>	
 					</div>
-					<div id="modalDeleteWork">
+					<div id="modalDeleteWork" class="delete">
 						<h3 id="modalTitleGallery">Galerie photo</h3>
 						<div id="modalGallery">
 						</div>
 					</div>	
-					<div id="modalAddWork" style="display:none;">
+					<div id="modalAddWork" class="mask add">
 						<h3 id="modalTitleForm">Ajout photo</h3>
 						<form id="modalNewWorkForm">
 							<div class="formElement">
@@ -70,7 +70,7 @@
 									<input type="file" id="newWorkImage" accept=".png, .jpg, .jpeg"  class="formInput">
 									<p>jng, png: 4mo max</p>
 								</div>
-								<div id="preview" style="display:none;">
+								<div id="preview" class="mask">
 								</div>
 							</div>
 							<div class="formElement">
@@ -89,8 +89,8 @@
 						</form>
 					</div>
 					<div class="modalFooter">
-						<button id="modalAddButton" class="exeButton">Ajouter une photo</button>
-						<button id="modalValidateButton" class="exeButton" style="display:none;">Valider</button>
+						<button id="modalAddButton" class="exeButton delete">Ajouter une photo</button>
+						<button id="modalValidateButton" class="exeButton mask add invalidButton" >Valider</button>
 					</div>
 				</div>
 			</div>

@@ -29,14 +29,14 @@ hgroup, menu, nav, section {
 	display: block
 }
 header, h1, nav ul, #filters, #contact form, #login, 
-#login h2, #login form,#editMode, #editMode h4, #editButton,
+#login h2, #login form, #editMode, #editMode h4, #editButton,
 #modalDeleteWork, #modalAddWork, #portfolio, #portfolio h2,
 #modalHead, #formData, #pictureArea, #modalNewWorkForm, 
-.formElement, #preview, #newWorkImageArea, #setNewWorkImage {
+.formElement, #preview, #newWorkImageArea, #setNewWorkImage, #modal, .modalFooter {
 	display: flex
 }
 #editMode, .login form, #login, #login h2, #filters,
- #portfolio h2, #newWorkImageArea {
+ #portfolio h2, #newWorkImageArea, .modalFooter, .exeButton {
 	justify-content: center;
 }
 body {
@@ -58,6 +58,7 @@ table {
 	border-spacing: 0
 }
 /** end reset css**/
+
 body {
 	max-width: 1440px;
 	margin:auto;
@@ -280,14 +281,6 @@ footer nav ul {
 }
 
 	/* Modal */
-
-.modalOpen {
-	position: absolute;
-	top: 0; 
-	left: 0;
-	height: 100%;
-	width: 100%;
-}
 .overlay {
 	position: fixed;
 	width : 100%;
@@ -299,7 +292,13 @@ footer nav ul {
 	opacity: 50%;
 	z-index: 1;
 }
-
+#modal {
+	position: absolute;
+	top: 0; 
+	left: 0;
+	height: 100%;
+	width: 100%;
+}
 #modalContainer {
 	position: fixed;
 	z-index: 2;
@@ -423,11 +422,11 @@ footer nav ul {
 	bottom: 0;
 	height: 8em;
 	margin: 0 7.5em;
-	text-align: center;
 	border-top: solid 0.2em; 
 	border-color: #B3B3B3;
 }
 .exeButton {
+	align-items: center;
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -435,7 +434,13 @@ footer nav ul {
 	border-radius: 1.5em;
 	border: none; 
 	cursor: pointer;
+	height: 3em;
 	width: 18em;
-	padding: 0.6em 4em;
 	margin: 2.5em 0;
+}
+.invalidButton {
+	background-color: #A7A7A7;
+}
+.validButton {
+	background-color: #1D6154;
 }
