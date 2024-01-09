@@ -2,18 +2,18 @@ const apiUrl = 'http://localhost:5678/api/'     //Stockage de l'adresse de l'API
 const token = sessionStorage.getItem('token')   //Récupération et stockage de l'identifiant                 
 
 const show = (data) => {          //  
-  Array.from(data).forEach(i => { //Fonction pour affichage d'éléments
+  Array.from(data).forEach(i => { //Fonction pour affichage d'éléments du document
     i.style.display = 'flex'      //
   })
 }
 const hide = (data) => {          //
-  Array.from(data).forEach(i => { //Fonction pour masquage d'éléments
+  Array.from(data).forEach(i => { //Fonction pour masquage d'éléments du document
     i.style.display = 'none'      //
   })
 }
 hide(document.getElementsByClassName('mask'))
 
-    //Connexion de l'utilisateur
+//Connexion de l'utilisateur
 const userConnected = () => {   
   if(sessionStorage.getItem('token') !== null) {                      //Vérification de la présence d'un identifiant           
     show(document.getElementsByClassName('edition'))                  //Affichage du mode édition
@@ -22,7 +22,7 @@ const userConnected = () => {
 }
 userConnected()
 
-    //Category//
+//Catégories//
 
 //Connexion a l'API
 const getApiCategory = async () => {  
@@ -40,7 +40,7 @@ const setCategory = async () => {
   console.log('Category : ', categoryList)                  //Visualisation de la liste dans la console
   setFilters(categoryList)                                  //Création des filtres
 }
-setCategory()  //Lancement de la fonction
+setCategory()
 
 //Création des filtres 
 const setFilters = (categoryList) => {
@@ -58,9 +58,9 @@ const filterButton = (category) => {
   document.getElementById('filters').appendChild(button)  //Ajout du bouton dans le document 
  }
 
-    //Works//
+//Projets//
 
-//Connexion a l'interface de communication
+//Connexion a l'API
 const getApiWorks = async () => {
   return await fetch (`${apiUrl}works`) //Récupération des données de l'API                       
     .then((res) => res.json())          //Conversion des données   
@@ -82,10 +82,10 @@ getWorks()  //Lancement de la fonction
 
 //Filtration de la galerie
 const filterGallery = (works) => {
-  document.getElementById('filters')                    //Sélection de la barre de filtre
-    .addEventListener('click', (event) => {             //Ecoute de la selection du bouton
-      const filter = event.target.id                    //Récuperation de l'id de catégorie du bouton selectionné
-      document.getElementById('gallery').innerHTML = '' //Retrait de la sélection actuelle
+  document.getElementById('filters')                    //Séléction de la barre de filtre
+    .addEventListener('click', (event) => {             //Ecoute de la séléction du bouton
+      const filter = event.target.id                    //Récupération de l'id de catégorie du bouton selectionné
+      document.getElementById('gallery').innerHTML = '' //Retrait de la séléction actuelle
       setGallery(works, filter)                         //Création de la galerie selon le filtre
   })
 }
@@ -107,7 +107,6 @@ const setGallery = (works, filter) => {
 const figureCreation = (work) => {                    
   image = document.createElement('img')                   //Création d'un élément image                      
   title = document.createElement('p')                     //Création d'un élément titre                         
-  // title.style.marginTop = '0.5em'                             
   image.src = work.imageUrl                               //Source de l'image selon le projet                                
   title.textContent = work.title                          //Source du titre identique à celui du projet 
   const figure = document.createElement('work')           //Création d'un élément figure                               
@@ -156,6 +155,12 @@ document.getElementById('editButton').addEventListener('click', (event) => {  //
   openModal()                                                                 //Lancement de l'ouverture de la modale
 })
 
+//modale
+
+const stopPropagation = (event) => {
+  event.stopPropagation()
+}
+
 //Ouverture de la modale
 const openModal = () => {
   show(document.getElementsByClassName('modal'))                      //Affichage de la modale
@@ -164,7 +169,9 @@ const openModal = () => {
   const figures = document.getElementsByClassName("figure");          //
   for (i = 0; i < figures.length; i++) {                              //Affichage du voile sur les images derrière la modale
     figures.item(i).classList.add("imageOverlay");                    //
-  } 
+  }
+  document.getElementById('modal').addEventListener('click', closeModal);             //Ecoute du click en dehors de la modale pour fermenture 
+  document.querySelector('.modalStop').addEventListener('click', stopPropagation);    //Stop la propagation du click de fermeture à la modale
   document.getElementById('modalAddButton').addEventListener('click', modalAddWork)   //Ecoute de l'entrée de formulaire pour l'apercu de l'image
   document.getElementById('newWorkImage').addEventListener('change', displayPreview)  //Ecoute du champ de formulaire d'ajout d'image du projet          
   document.getElementById('modalCloseButton').addEventListener('click', () => {       //Ecoute du click sur le bouton de fermeture 
@@ -174,7 +181,7 @@ const openModal = () => {
   document.getElementById('modalReturnButton').addEventListener('click', () => {      //Ecoute du click sur le bouton de retour              
     returnModalGallery()                                                              //Retour a la partie ajout de projet
     clearForm()                                                                       //Nettoyage de la modale
-  })      
+  })  
 }
 
 //Partie ajout de projet de la modale 
@@ -198,22 +205,24 @@ const returnModalGallery = () => {
 
 //Fermeture de la modale
 const closeModal = () => {        
-  modal.style.display = 'none';                                            //Masquage de la modale
-  document.getElementById('modalReturnButton').style.visibility = 'hidden' //Masquage du bouton retour
+  hide(document.getElementsByClassName('modal'))                           //Masquage de la modale
   hide(document.getElementsByClassName('add'))                             //Masquage des éléments d'ajout de projet de la modale
+  document.getElementById('modalReturnButton').style.visibility = 'hidden' //Masquage du bouton retour
   document.getElementById('mainContainer').classList.remove('overlay');    //Masquage des éléments de suppression de projet 
   const figures = document.getElementsByClassName("figure");               //
   for (let i = 0; i < figures.length; i++) {                               //Masquage du voile sur les images derrière la modale
     figures.item(i).classList.remove("imageOverlay");                      //
   }
+  document.getElementById('modal').removeEventListener('click', closeModal);              //
+  document.querySelector('.modalStop').removeEventListener('click', stopPropagation);     //
   document.getElementById('modalAddButton').removeEventListener('click', modalAddWork)    //
   document.getElementById('newWorkImage').removeEventListener('change', displayPreview);  //
   document.getElementById('modalValidateButton').removeEventListener('click', validForm)  //
   document.getElementById('modalCloseButton').removeEventListener('click', () => {        //
     closeModal()                                                                          //
     clearForm()                                                                           //
-  })                                                                                      //  
-  document.getElementById('modalReturnButton').removeEventListener('click', () => {       //  Retrait des écoutes
+  })                                                                                      //Retrait des écoutes  
+  document.getElementById('modalReturnButton').removeEventListener('click', () => {       //  
   returnModalGallery()                                                                    //
   clearForm()                                                                             //
   })                                                                                      //
@@ -283,61 +292,64 @@ const validInput = () => {
   }
 }
 
-//Vérification du champ
+//Vérification du champ de formulaire
   const listenInput = (input) => {
     if (input.value === '' || input.selectedIndex === 0) {  //Vérification de la complétion du champ
-    return false
-  } else {
-    return true
+    return false                                            //Retour faux
+  } else {                                                  //Sinon
+    return true                                             //retour vrai
   }      
 }
 
 //Vérification du formulaire
 const validForm = () => {
-  const checkList = []
-  Array.from(document.getElementsByClassName('formInput')).forEach(input => {
-    checkList.push(checkInput(input))
-  })
-  if (checkList.includes(false) === true) {
-    alert("Formulaire incomplet") 
-  } else { 
-    setNewWork()  
+  const checkList = []                                                        //Création d'un tableau de vérification des champs
+  Array.from(document.getElementsByClassName('formInput')).forEach(input => { //Récupération des champs
+    checkList.push(checkInput(input))                                         //Ajout du résultat de la vérification des champs au tableau
+  })  
+  if (checkList.includes(false) === true) {                                   //Vérification de la présence d'un champ invalide dans le tableau: Si oui
+    alert("Formulaire incomplet")                                             //Message à l'utilisteur
+  } else {                                                                    //Sinon
+    setNewWork()                                                              //Edition du projet
   }
 }
 
+//Vérification du champ de formulaire
 const checkInput = (input) => {
-  if (input.value === '' || input.selectedIndex === 0 ) {
-    input.parentElement.classList.add('invalid')
-    return false
-  } if (input.parentElement.classList.contains('invalid')) {
-      input.parentElement.classList.remove('invalid')
-  } else {
-    return true
+  if (input.value === '' || input.selectedIndex === 0 ) {     //Vérification de la complétion du champ : Si non
+    input.parentElement.classList.add('invalid')              //Ajout de la classe invalid
+    return false                                              //Retour faux
+  } if (input.parentElement.classList.contains('invalid')) {  //
+      input.parentElement.classList.remove('invalid')         //Si retour vrai, retrait de la classe invalid, si présente
+  } else {                                                    //Sinon
+    return true                                               //Retour vrai
   }
 }
 
+//Edition du projet
 const setNewWork = () => {
-  formData = new FormData()
-  formData.append("image", document.getElementById("newWorkImage").files[0])
-  formData.append("title", document.getElementById("newWorkTitle").value)
-  formData.append("category", document.getElementById('newWorkCategory').selectedOptions[0].id)
-  postNewWork(formData)
-  clearForm()
+  formData = new FormData()                                                                     //Création d'un ensemble de paires clé/valeur
+  formData.append("image", document.getElementById("newWorkImage").files[0])                    //
+  formData.append("title", document.getElementById("newWorkTitle").value)                       //champs de formulaire et leurs valeurs
+  formData.append("category", document.getElementById('newWorkCategory').selectedOptions[0].id) //
+  postNewWork(formData)                                                                         //Envoi du projet
+  clearForm()                                                                                   //Néttoyage du formulaire
 }
 
+//Envoi du projet
 const postNewWork = async (formData) => {
-  return await fetch(`${apiUrl}works`, {
-    method: "POST",
-    headers: { 
-        Authorization: `Bearer ${token}`
+  return await fetch(`${apiUrl}works`, {  //Communication avec l'API
+    method: "POST",                       //Type de requète
+    headers: {                            //En-tête
+        Authorization: `Bearer ${token}`  //Authentification
     },
-    body: formData
+    body: formData                        //Type de corps
   })
-  .then(res => {
-    if (res.status === 201) {
-      alert("Le projet est ajouté.")
+  .then(res => {                          //Fonction de rappel
+    if (res.status === 201) {             //Message de statut de l'API
+      alert("Le projet est ajouté.")      //Message à l'utilisateur
   }})
-  .catch((error) => {
-    console.log(error)
+  .catch((error) => {                     //Vérification de la présence d'une erreur
+    console.log(error)                    //Visualisation de l'erreur dans la console
   })
 }
