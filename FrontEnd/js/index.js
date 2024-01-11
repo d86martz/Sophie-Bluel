@@ -1,23 +1,25 @@
 const apiUrl = 'http://localhost:5678/api/'     //Stockage de l'adresse de l'API
 const token = sessionStorage.getItem('token')   //Récupération et stockage de l'identifiant                 
 
-const show = (data) => {          //  
-  Array.from(data).forEach(i => { //Fonction pour affichage d'éléments du document
-    i.style.display = 'flex'      //
+const show = (data) => {          //
+  data.forEach(index => {         //Affichage d'éléments du document
+    index.style.display = null    //
   })
 }
-const hide = (data) => {          //
-  Array.from(data).forEach(i => { //Fonction pour masquage d'éléments du document
-    i.style.display = 'none'      //
+
+const hide = (data) => {           //
+  data.forEach(index => {          //Masquage d'éléments du document
+    index.style.display = 'none'   //
   })
 }
-hide(document.getElementsByClassName('mask'))
+
+hide(document.querySelectorAll('.mask'))
 
 //Connexion de l'utilisateur
 const userConnected = () => {   
-  if(sessionStorage.getItem('token') !== null) {                      //Vérification de la présence d'un identifiant           
-    show(document.getElementsByClassName('edition'))                  //Affichage du mode édition
-    document.getElementById('filters').style.visibility = 'hidden'    //Masquage des boutons filtres
+  if(sessionStorage.getItem('token') !== null) {                   //Vérification de la présence d'un identifiant           
+    show(document.querySelectorAll('.edition'))                    //Affichage du mode édition
+    document.getElementById('filters').style.visibility = 'hidden' //Masquage des boutons filtres
   }
 }
 userConnected()
@@ -34,27 +36,27 @@ const getApiCategory = async () => {
 }
 //Création de la liste des categories
 const setCategory = async () => {
-  let setApiCategory = new Set(await getApiCategory())      //Création d'une liste des categories sans doublons
-  const categoryList = Array.from(setApiCategory.values())  //Conversion en tableau
-  categoryList.splice(0,0,{id:0, name:'Tous'})              //Ajout de la catégorie "Tous"
-  console.log('Category : ', categoryList)                  //Visualisation de la liste dans la console
-  setFilters(categoryList)                                  //Création des filtres
+  let setApiCategory = new Set(await getApiCategory())     //Création d'une liste des catégories sans doublons
+  const categoryList = Array.from(setApiCategory.values()) //Conversion en tableau
+  categoryList.splice(0,0,{id:0, name:'Tous'})             //Ajout de la catégorie "Tous"
+  console.log('Category : ', categoryList)                 //Visualisation de la liste dans la console
+  setFilters(categoryList)                                 //Création des filtres
 }
 setCategory()
 
 //Création des filtres 
 const setFilters = (categoryList) => {
-  categoryList.forEach(category => {    //Séléction des categories
-    filterButton(category)              //Création du bouton filtre pour chaque categorie   
+  categoryList.forEach(category => {    //Séléction des catégories
+    filterButton(category)              //Création du bouton filtre pour chaque catégorie   
   })
 }
 
 //Création du bouton
 const filterButton = (category) => {
   button = document.createElement('button')                      
-  button.setAttribute('id', category.id)                  //Attribution dun id identique à celui de la categorie
-  button.setAttribute('class', category.name)             //Attribution d'une classe identique au nom de la categorie             
-  button.textContent = (category.name)                    //Attribution d'un nom identique à celui de la categorie                                
+  button.setAttribute('id', category.id)                  //Attribution dun id identique à celui de la catégorie
+  button.setAttribute('class', category.name)             //Attribution d'une classe identique au nom de la catégorie             
+  button.textContent = (category.name)                    //Attribution d'un nom identique à celui de la catégorie                                
   document.getElementById('filters').appendChild(button)  //Ajout du bouton dans le document 
  }
 
@@ -70,84 +72,81 @@ const getApiWorks = async () => {
 }
 
 //Création de la liste des projets
+
 const getWorks = async () => {
-  const setWorks = new Set (await getApiWorks())  //Création d'une liste des categories sans doublons
+  const setWorks = new Set (await getApiWorks())  //Création d'une liste des projets sans doublons
   const works = Array.from(setWorks.values())     //Conversion en tableau
   console.log('Works : ', works)                  //Visualisation de la liste dans la console
-  filterGallery(works)                            //Filtration de la galerie
-  onload()                                        //Affichage de la galerie au chargement de la page
-  setModalGallery(works)                          //Création de la galerie de la modale 
-} 
-getWorks()  //Lancement de la fonction 
+  displayGallery(works)                           //Affichage de la galerie de la modale
+  alert("reload")
+}
+getWorks()
 
-//Filtration de la galerie
-const filterGallery = (works) => {
-  document.getElementById('filters')                    //Séléction de la barre de filtre
-    .addEventListener('click', (event) => {             //Ecoute de la séléction du bouton
-      const filter = event.target.id                    //Récupération de l'id de catégorie du bouton selectionné
-      document.getElementById('gallery').innerHTML = '' //Retrait de la séléction actuelle
-      setGallery(works, filter)                         //Création de la galerie selon le filtre
+const displayGallery = (works) => {
+  works.forEach(work => {
+    galleryFigure(work)
+    modalFigure(work)
   })
 }
 
+//Filtration de la galerie
+const filterGallery = () => {
+  document.getElementById('filters')                    //Séléction de la barre de filtre
+    .addEventListener('click', (event) => {             //Ecoute de la séléction du bouton
+      filter = event.target.id                          //Récupération de l'id de catégorie du bouton selectionné
+      setGallery(filter)                                //Création de la galerie selon le filtre                                
+  })                                    
+}
+filterGallery()
+
 //Création de la galerie selon le filtre
-const setGallery = (works, filter) => {
+const setGallery = (filter) => {
+  const works = document.querySelectorAll('.galleryFigure')
   works.forEach(work => { 
-    if(filter == work.category.id) { //Sélection des projets selon l'id
-      figureCreation(work)           //Création de la figure du projet   
-    }else {
-      if(filter == 0) {              //Si "Tous" sélectionné
-        figureCreation(work)         //Création de la figure du projet
-      }
+    if (filter == 0 || filter == work.attributes.category.value) {
+      work.style.display = null
+    } 
+    else {
+      work.style.display = "none"     
     }
   })
 }
 
 //Création de la figure du projet
-const figureCreation = (work) => {                    
+const galleryFigure = (work) => {                    
   image = document.createElement('img')                   //Création d'un élément image                      
   title = document.createElement('p')                     //Création d'un élément titre                         
-  image.src = work.imageUrl                               //Source de l'image selon le projet                                
+  image.src = work.imageUrl                               //Source de l'image selon le projet
+  image.setAttribute("alt", work.title)                   //Attribution d'une description à l'image             
   title.textContent = work.title                          //Source du titre identique à celui du projet 
   const figure = document.createElement('work')           //Création d'un élément figure                               
   figure.appendChild(image)                               //Ajout de l'image à la figure                                   
   figure.appendChild(title)                               //Ajout du titre à la figure
-  figure.setAttribute('id', work.id)                      //Attribution d'un id identique à celui du projet
-  figure.setAttribute('class', "figure")                  //Attribution d'une classe
+  figure.setAttribute('workId', work.id)                      //Attribution d'un id identique à celui du projet
+  figure.setAttribute('category', work.category.id)    //Attribution d'un id de catégorie identique à celui du projet
+  figure.setAttribute('class', "figure workFigure galleryFigure")    //Attribution d'une classe
   document.getElementById('gallery').appendChild(figure)  //Ajout de la figure dans le document                                                  
 }
 
-//création de la galerie de la modale
-const setModalGallery = (works) => {
-  works.forEach(work => {            //Séléction des projets
-    modalFigureCreation(work)        //Création de la figure du projet
-  })
-}
-
 //Création de la figure du projet
-const modalFigureCreation = (work) => {                   
+const modalFigure = (work) => {                   
   image = document.createElement('img')                                               //Création d'un élément image                                                         
-  image.src = work.imageUrl                                                           //Source de l'image selon le projet
+  image.src = work.imageUrl
+  image.setAttribute("alt", work.title)                                               //Source de l'image selon le projet
   button = document.createElement('button')                                           //Création d'un élément bouton
-  button.innerHTML = ('value',`<i workId="${work.id}" class="fas fa-trash-can"></i>`) //Ajout d'un icon au bouton avec un id identique à celui du projet 
+  button.innerHTML = ('value',`<i id="${work.id}" class="fas fa-trash-can"></i>`) //Ajout d'un icone au bouton avec un id identique à celui du projet 
   button.setAttribute('class', 'trashButton')                                         //Attribution d'une classe                                             
   const figure = document.createElement('work')                                       //Création d'un élément figure                            
   figure.appendChild(button)                                                          //Ajout du bouton à l'élément figure
   figure.appendChild(image)                                                           //Ajout de l'image à l'élément figure
-  figure.setAttribute('id', work.id)                                                  //Attribution d'un id à la figure identique à celui du projet                            
+  figure.setAttribute('workId', work.id)                                                  //Attribution d'un id à la figure identique à celui du projet
+  figure.setAttribute('class', 'workFigure')                            
   document.getElementById('modalGallery').appendChild(figure)                         //Ajout de la figure dans le document
   button.addEventListener('click', (event) => {                                       //Ecoute du bouton 
     event.preventDefault()                                                            //Empêche le comportement par défaut
-    const id = event.target.getAttribute('workId')                                    //Récupération de l'id du bouton séléctionné
+    id = event.target.getAttribute('id')                                    //Récupération de l'id du bouton séléctionné
     deleteWork(id)                                                                    //Suppression du projet selon l'id
   })                                                                             
-}
-
-//Affichage de la galerie au chargement de la page
-const onload = () => {                                     
-  const allBtn = document.getElementById(0) //Séléction du bouton "Tous"
-  allBtn.click()                            //Click du bouton "Tous"
-  allBtn.focus()                            //Focus du bouton "Tous"    
 }
 
 document.getElementById('editButton').addEventListener('click', (event) => {  //Ecoute du click sur le bouton modifier en mode édition
@@ -163,16 +162,16 @@ const stopPropagation = (event) => {
 
 //Ouverture de la modale
 const openModal = () => {
-  show(document.getElementsByClassName('modal'))                      //Affichage de la modale
-  show(document.getElementsByClassName('delete'));                    //Affichage des éléments de suppression de projet
+  show(document.querySelectorAll('.modal'))                      //Affichage de la modale
+  show(document.querySelectorAll('.delete'));                    //Affichage des éléments de suppression de projet
   document.getElementById('mainContainer').classList.add('overlay');  //Affichage du voile derrière la modale
   const figures = document.getElementsByClassName("figure");          //
   for (i = 0; i < figures.length; i++) {                              //Affichage du voile sur les images derrière la modale
     figures.item(i).classList.add("imageOverlay");                    //
   }
-  document.getElementById('modal').addEventListener('click', closeModal);             //Ecoute du click en dehors de la modale pour fermenture 
+  document.getElementById('modal').addEventListener('click', closeModal);             //Ecoute du click en dehors pour la fermenture 
   document.querySelector('.modalStop').addEventListener('click', stopPropagation);    //Stop la propagation du click de fermeture à la modale
-  document.getElementById('modalAddButton').addEventListener('click', modalAddWork)   //Ecoute de l'entrée de formulaire pour l'apercu de l'image
+  document.getElementById('modalAddButton').addEventListener('click', modalAddWork)   //Ecoute de l'entrée de formulaire pour l'aperçu de l'image
   document.getElementById('newWorkImage').addEventListener('change', displayPreview)  //Ecoute du champ de formulaire d'ajout d'image du projet          
   document.getElementById('modalCloseButton').addEventListener('click', () => {       //Ecoute du click sur le bouton de fermeture 
     closeModal()                                                                      //Fermeture de la modale
@@ -180,36 +179,35 @@ const openModal = () => {
   })           
   document.getElementById('modalReturnButton').addEventListener('click', () => {      //Ecoute du click sur le bouton de retour              
     returnModalGallery()                                                              //Retour a la partie ajout de projet
-    clearForm()                                                                       //Nettoyage de la modale
+    clearForm()                                                                       //Néttoyage de la modale
   })  
 }
 
 //Partie ajout de projet de la modale 
 const modalAddWork = () => {
   document.getElementById('modalReturnButton').style.visibility = 'visible'           //Affichage du bouton de retour 
-  hide(document.getElementsByClassName('delete'))                                     //Masquage des éléments de suppression de projet
-  show(document.getElementsByClassName('add'))                                        //Affichage des éléments d'ajout de projet
+  hide(document.querySelectorAll('.delete'))                                     //Masquage des éléments de suppression de projet
+  show(document.querySelectorAll('.add'))                                        //Affichage des éléments d'ajout de projet
   document.getElementById('modalValidateButton').addEventListener('click', validForm) //Ecoute du bouton de validation du formulaire
-  Array.from(document.getElementsByClassName('formInput')).forEach(input => {         //Ecoute des champs de formulaire
+  document.querySelectorAll('.formInput').forEach(input => {         //Ecoute des champs de formulaire
     input.addEventListener('input', validInput)                                       //Validation du champ 
   })                                                                                  
-   
 }
 
 //Retour dans la modale
 const returnModalGallery = () => {
   document.getElementById('modalReturnButton').style.visibility = 'hidden'  //Masquage du bouton retour
-  hide(document.getElementsByClassName('add'))                              //Masquage de la partie ajout de projet de la modale
-  show(document.getElementsByClassName('delete'))                           //Affichage de la partie suppression de projet de la modale
+  hide(document.querySelectorAll('.add'))                              //Masquage de la partie ajout de projet de la modale
+  show(document.querySelectorAll('.delete'))                           //Affichage de la partie suppression de projet de la modale
 }
 
 //Fermeture de la modale
 const closeModal = () => {        
-  hide(document.getElementsByClassName('modal'))                           //Masquage de la modale
-  hide(document.getElementsByClassName('add'))                             //Masquage des éléments d'ajout de projet de la modale
+  hide(document.querySelectorAll('.modal'))                           //Masquage de la modale
+  hide(document.querySelectorAll('.add'))                             //Masquage des éléments d'ajout de projet de la modale
   document.getElementById('modalReturnButton').style.visibility = 'hidden' //Masquage du bouton retour
   document.getElementById('mainContainer').classList.remove('overlay');    //Masquage des éléments de suppression de projet 
-  const figures = document.getElementsByClassName("figure");               //
+  const figures = document.querySelectorAll(".figure");               //
   for (let i = 0; i < figures.length; i++) {                               //Masquage du voile sur les images derrière la modale
     figures.item(i).classList.remove("imageOverlay");                      //
   }
@@ -226,7 +224,7 @@ const closeModal = () => {
   returnModalGallery()                                                                    //
   clearForm()                                                                             //
   })                                                                                      //
-  Array.from(document.getElementsByClassName('formInput')).forEach(input => {             //
+  document.querySelectorAll('.formInput').forEach(input => {             //
     input.removeEventListener('input', validInput)                                        //
   })                                                                                      //
 }                                                                                         //
@@ -253,7 +251,7 @@ const clearForm = () => {
   document.getElementById('preview').innerHTML = '';                          //Néttoyage du champ d'aperçu de l'image
   document.getElementById('newWorkTitle').value = '';                         //Néttoyage du champ titre 
   document.getElementById('newWorkCategory').selectedIndex = 0;               //Néttoyage du champ de séléction de catégorie
-  Array.from(document.getElementsByClassName('formInput')).forEach(input => { //
+  document.querySelectorAll('.formInput').forEach(input => { //
     if (input.parentElement.classList.contains('invalid')) {                  //Retrait de la classe invalid des champs de formulaire si présente
       input.parentElement.classList.remove('invalid')                         //
     }
@@ -271,6 +269,7 @@ const deleteWork = async (id) => {
   .then(res => {                                //Fonction de rappel 
     if (res.status === 204) {                   //Message de statut de l'API
       alert("Le projet est supprimé.")          //Message à l'utilisateur
+      updateGallery(id)  
   }})
   .catch((error) => {                           //Vérification de la présence d'une erreur 
     console.log(error)                          //Visualisation de l'erreur dans la console
@@ -280,7 +279,7 @@ const deleteWork = async (id) => {
 //Vérification des champs de formulaire
 const validInput = () => {
   const checkList = []                                                                //Création d'un tableau de vérification des champs
-  Array.from(document.getElementsByClassName('formInput')).forEach(input => {         //Récupération des champs
+  document.querySelectorAll('.formInput').forEach(input => {         //Récupération des champs
     checkList.push(listenInput(input))                                                //Ajout du résultat de la vérification des champs au tableau
   })
   if (checkList.includes(false) === false) {                                          //Vérification de la présence d'un champ invalide dans le tableau: Si non
@@ -304,7 +303,7 @@ const validInput = () => {
 //Vérification du formulaire
 const validForm = () => {
   const checkList = []                                                        //Création d'un tableau de vérification des champs
-  Array.from(document.getElementsByClassName('formInput')).forEach(input => { //Récupération des champs
+  document.querySelectorAll('.formInput').forEach(input => { //Récupération des champs
     checkList.push(checkInput(input))                                         //Ajout du résultat de la vérification des champs au tableau
   })  
   if (checkList.includes(false) === true) {                                   //Vérification de la présence d'un champ invalide dans le tableau: Si oui
@@ -347,9 +346,14 @@ const postNewWork = async (formData) => {
   })
   .then(res => {                          //Fonction de rappel
     if (res.status === 201) {             //Message de statut de l'API
-      alert("Le projet est ajouté.")      //Message à l'utilisateur
+      alert("Le projet est ajouté.")      //Message à l'utilisateur  
   }})
   .catch((error) => {                     //Vérification de la présence d'une erreur
     console.log(error)                    //Visualisation de l'erreur dans la console
   })
+}
+
+console.log(document.querySelectorAll('.workfigure'))
+
+const updateGallery = (id) => {
 }
