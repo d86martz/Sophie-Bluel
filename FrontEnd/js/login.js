@@ -30,7 +30,7 @@ const authentification = async () => {
     .then((res) => res.json())
     .then((data) => {
       if (data.error) {
-        alert("Error Password or E-mail");
+        alert("Erreur dans l’identifiant ou le mot de passe");
       } else {
         if (data.token) {
         sessionStorage.setItem("token", data.token);

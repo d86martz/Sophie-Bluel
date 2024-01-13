@@ -14,7 +14,6 @@
 	<script defer src="./js/index.js"></script>
 </head>
 <body>
-	<div id="mainContainer">
 		<div id="editMode" class="edition mask">
 			<h4><i class="fa-regular fa-pen-to-square fa-lg"></i><span>Mode édition</span></h4>
 		</div>
@@ -32,7 +31,7 @@
 	<main>
 		<div id="introduction">
 			<figure>
-				<img class="figure" src="./assets/images/sophie-bluel.png" alt="">
+				<img class="figure bodyElement" src="./assets/images/sophie-bluel.png" alt="">
 			</figure>
 			<article>
 				<h2>Designer d'espace</h2>
@@ -65,7 +64,7 @@
 						<form id="modalNewWorkForm">
 							<div class="formElement">
 								<div id="setNewWorkImage">
-									<label for="image" id="imageLabel"><i class="fa-sharp fa-regular fa-image fa-6x"></i></label>
+									<i class="fa-sharp fa-regular fa-image fa-6x"></i>
 									<label for="newWorkImage" id="addWorkButton">+ Ajouter photo</label>
 									<input type="file" id="newWorkImage" accept=".png, .jpg, .jpeg"  class="formInput">
 									<p>jng, png: 4mo max</p>
@@ -74,16 +73,13 @@
 								</div>
 							</div>
 							<div class="formElement">
-								<label for="title" id="titleLabel">Titre</label>
+								<label for="newWorkTitle">Titre</label>
 								<input type="text" id="newWorkTitle"  class="formInput">
 							</div>
 							<div class ="formElement">
-								<label for="category" id="categoryLabel">Catégorie</label>
+								<label for="newWorkCategory">Catégorie</label>
 								<select id="newWorkCategory"  class="formInput">
-									<option value="" disabled selected hidden>Sélectionner une catégorie</option>
-									<option value="Objets" id='1'>Objets</option>
-									<option value="Appartements" id='2'>Appartements</option>
-									<option value="Hotels et restaurants" id='3'>Hotels et restaurants</option> 	
+									<option value="" disabled selected hidden>Sélectionner une catégorie</option> 	
 								</select>
 							</div>
 						</form>
@@ -104,12 +100,12 @@
 			<p>Vous avez un projet ? Discutons-en !</p>
 			<form action="#" method="post">
 				<label for="name">Nom</label>
-				<input type="text" name="name" id="name">
+				<input type="text" name="name" id="name" class="bodyElement">
 				<label for="email">Email</label>
-				<input type="email" name="email" id="email">
+				<input type="email" name="email" id="email" class="bodyElement">
 				<label for="message">Message</label>
-				<textarea name="message" id="message" cols="30" rows="10"></textarea>
-				<input type="submit" value="Envoyer">
+				<textarea name="message" id="message" cols="30" rows="10" class="bodyElement"></textarea>
+				<input type="submit" value="Envoyer" class="bodyElement">
 			</form>
 		</section>
 	</main>
@@ -120,6 +116,5 @@
 			</ul>
 		</nav>
 	</footer>
-	</div>
 </body>
 </html>
