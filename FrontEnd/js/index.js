@@ -28,7 +28,7 @@ userConnected()
 
 //Connexion à l'API
 const getApiCategory = async () => {  
-  return await fetch (`${apiUrl}categories`) //Communication avec l'API                  
+  return await fetch (`${apiUrl}categories`) //Chemin de la requête dans l'API                  
     .then(res => res.json())                 //Conversion des données                                   
     .catch (error => {                       //Vérification de la présence d'une erreur
       console.log(error)                     //Visualisation de l'erreur dans la console
@@ -38,7 +38,7 @@ const getApiCategory = async () => {
 const setCategory = async () => {
   let setApiCategory = new Set(await getApiCategory())     //Création d'une liste des catégories sans doublons
   const categoryList = Array.from(setApiCategory.values()) //Conversion en tableau
-  inputSelect(categoryList)                                    //Ajout des options de sélection de catégorie dans la partie ajout de la modale
+  inputSelect(categoryList)                                //Ajout des options de sélection de catégorie dans la partie ajout de la modale
   categoryList.splice(0,0,{id:0, name:"Tous"})             //Ajout de la catégorie "Tous"
   console.log("Category : ", categoryList)                 //Visualisation de la liste dans la console
   setFilters(categoryList)                                 //Création des filtres
@@ -65,7 +65,7 @@ const filterButton = (category) => {
 
 //Connexion à l'API
 const getApiWorks = async () => {
-  return await fetch (`${apiUrl}works`) //Récupération des données de l'API                       
+  return await fetch (`${apiUrl}works`) //Chemin de la requête dans l'API                       
     .then((res) => res.json())          //Conversion des données   
     .catch (error => {                  //Vérification de la présence d'une erreur
       console.log(error)                //Visualisation de l'erreur dans la console
@@ -270,7 +270,7 @@ const clearForm = () => {
 
 //Suppression d'un projet
 const deleteWork = async (id) => {             
-  return await fetch(`${apiUrl}works/${id}`, { //Communication avec l'API
+  return await fetch(`${apiUrl}works/${id}`, { //Chemin de la promesse dans l'API
     method: 'DELETE',                          //Type de requête
     headers: {                                 //En-tête
       'Authorization': `Bearer ${token}`       //Authentification
@@ -357,7 +357,7 @@ const setNewWork = () => {
 
 //Envoi du projet
 const postNewWork = async (formData) => {
-  return await fetch(`${apiUrl}works`, {  //Communication avec l'API
+  return await fetch(`${apiUrl}works`, {  //Chemin de la requête dans l'API
     method: 'POST',                       //Type de requête
     headers: {                            //En-tête
         Authorization: `Bearer ${token}`  //Authentification
