@@ -1,6 +1,3 @@
-const apiUrl = 'http://localhost:5678/api/'   //Stockage de l'adresse de l'API
-const token = sessionStorage.getItem('token') //Récupération et stockage de l'identifiant
-
 const show = (data) => {       //
   data.forEach(index => {      //Affichage d'éléments du document
     index.style.display = null //
@@ -12,6 +9,9 @@ const hide = (data) => {         //
     index.style.display = 'none' //
   })
 }
+
+const apiUrl = 'http://localhost:5678/api/'   //Stockage de l'adresse de l'API
+const token = sessionStorage.getItem('token') //Récupération et stockage de l'identifiant
 
 hide(document.querySelectorAll('.mask'))
 
@@ -90,29 +90,6 @@ const displayGalleries = (works) => {
   })
 }
 
-//Filtration de la galerie
-const filterGallery = () => {
-  document.getElementById('filters')        //Sélection de la barre de filtre
-    .addEventListener('click', (event) => { //Ecoute de la sélection du bouton
-      filter = event.target.id              //Récupération de l'id de catégorie du bouton sélectionné
-      setGallery(filter)                    //Edition de la galerie selon le filtre                                
-  })                                    
-}
-filterGallery()
-
-//Edition de la galerie selon le filtre
-const setGallery = (filter) => {
-  const works = document.querySelectorAll('.galleryFigure')        //Sélection de la galerie
-  works.forEach(work => {                                          //Sélection des projets
-    if (filter == 0 || filter == work.attributes.category.value) { //Tri selon l'id
-      work.style.display = null                                    //Affichage
-    } 
-    else {
-      work.style.display = 'none'                                  //Masquage
-    }
-  })
-}
-
 //Création de la figure du projet
 const galleryFigure = (work) => {                    
   image = document.createElement('img')                                //Création d'un élément image                      
@@ -150,7 +127,30 @@ const modalFigure = (work) => {
   })                                                                             
 }
 
-//modale
+//Filtration de la galerie
+const filterGallery = () => {
+  document.getElementById('filters')        //Sélection de la barre de filtre
+    .addEventListener('click', (event) => { //Ecoute de la sélection du bouton
+      filter = event.target.id              //Récupération de l'id de catégorie du bouton sélectionné
+      setGallery(filter)                    //Edition de la galerie selon le filtre                                
+  })                                    
+}
+filterGallery()
+
+//Edition de la galerie selon le filtre
+const setGallery = (filter) => {
+  const works = document.querySelectorAll('.galleryFigure')        //Sélection de la galerie
+  works.forEach(work => {                                          //Sélection des projets
+    if (filter == 0 || filter == work.attributes.category.value) { //Tri selon l'id
+      work.style.display = null                                    //Affichage
+    } 
+    else {
+      work.style.display = 'none'                                  //Masquage
+    }
+  })
+}
+
+//modale//
 
 document.getElementById('editButton').addEventListener('click', (event) => { //Ecoute du click sur le bouton modifier
   event.preventDefault()                                                     //Empêche le comportement par défaut
@@ -184,6 +184,34 @@ const openModal = () => {
   })  
 }
 
+//Suppression d'un projet
+const deleteWork = async (id) => {             
+  return await fetch(`${apiUrl}works/${id}`, { //Chemin de la promesse dans l'API
+    method: 'DELETE',                          //Type de requête
+    headers: {                                 //En-tête
+      'Authorization': `Bearer ${token}`       //Authentification
+    }
+  })
+  .then(res => {                               //Fonction de rappel 
+    if (res.status === 204) {                  //Message de statut de l'API
+      alert("Le projet est supprimé.")         //Message à l'utilisateur
+      updateGallery(id)                        //Mise à jour de la galerie
+  }})
+  .catch((error) => {                          //Vérification de la présence d'une erreur 
+    console.log(error)                         //Visualisation de l'erreur dans la console
+  })
+}
+
+//Mise à jour de la galerie
+const updateGallery = (id) => {                                 
+  const workFigure = document.querySelectorAll('.workFigure') //Sélection des figures des galeries
+  workFigure.forEach(element => {                             //Sélection des figures
+    if (element.id == id) {                                   //comparaison des id
+      element.remove()                                        //Retrait des figures
+    }
+  })
+}
+
 //Partie ajout de projet de la modale 
 const modalAddWork = () => {
   document.getElementById('modalReturnButton').style.visibility = 'visible'           //Affichage du bouton de retour 
@@ -197,10 +225,116 @@ const modalAddWork = () => {
 
 //Ajout des options de sélection de catégorie dans la partie ajout de la modale
 const inputSelect = (categoryList) => {
-  categoryList.forEach(category => {
-  const option = new Option(category.name, category.name)
-  option.setAttribute('id', category.id)
-  document.getElementById('newWorkCategory').appendChild(option)
+  categoryList.forEach(category => {                             //Sélection des catégories
+  const option = new Option(category.name, category.name)        //Création de l'option selon la catégorie
+  option.setAttribute('id', category.id)                         //Attribution d'un id à l'option
+  document.getElementById('newWorkCategory').appendChild(option) //Ajout de l'option dans la balise select du document
+  })
+}
+
+//Aperçu de l'image du projet à ajouter
+const displayPreview = () => {
+  const preview = document.getElementById('preview')                    //Récupération de l'élément dans le document  
+  const file = document.getElementById('newWorkImage').files[0]         //Récupération de l'élément de champ dans le formulaire
+  const image = document.createElement('img')                           //Création d'un élément image
+  image.setAttribute('id', 'imagePreview')                              //Attribution d'un id
+  image.src = URL.createObjectURL(file)                                 //Source de l'image
+  if (file) {                                                           //Vérification de la présence d'un fichier
+      document.getElementById('setNewWorkImage').style.display = 'none' //Masquage du champ de formulaire
+      preview.style.display = null                                      //Affichage de la partie aperçu
+      preview.appendChild(image)                                        //Ajout de l'aperçu dans le document
+  }    
+}
+
+//Nettoyage du formulaire d'ajout de projet
+const clearForm = () => {
+  document.getElementById('setNewWorkImage').style.display = null //Affichage du champ d'ajout d'image
+  document.getElementById('newWorkImage').value = ''              //Nettoyage du champ d'ajout d'image
+  document.getElementById('preview').style.display = 'none'       //Masquage du champ d'aperçu
+  document.getElementById('preview').innerHTML = ''               //Nettoyage du champ d'aperçu de l'image
+  document.getElementById('newWorkTitle').value = ''              //Nettoyage du champ titre 
+  document.getElementById('newWorkCategory').selectedIndex = 0    //Nettoyage du champ de sélection de catégorie
+  document.querySelectorAll('.formInput').forEach(input => {      //
+    if (input.parentElement.classList.contains('invalid')) {      //Retrait de la classe invalid des champs de formulaire si présente
+      input.parentElement.classList.remove('invalid')             //
+    }
+  })
+}
+
+//Vérification du champ de formulaire
+const listenInput = (input) => {
+  if (input.value === '' || input.selectedIndex === 0) { //Vérification de la complétion du champ
+  return false                                            
+} else {                                                  
+  return true                                            
+}      
+}
+
+//Vérification des champs de formulaire
+const validInput = () => {
+  const checkList = []                                                               //Création d'un tableau de vérification des champs
+  document.querySelectorAll('.formInput').forEach(input => {                         //Récupération des champs
+    checkList.push(listenInput(input))                                               //Ajout du résultat de la vérification des champs au tableau
+  })
+  if (checkList.includes(false) === false) {                                         //Vérification de la présence d'un champ invalide dans le tableau
+    document.getElementById('modalValidateButton').classList.remove('invalidButton') //Retrait de la classe invalid au bouton de validation du projet
+    document.getElementById('modalValidateButton').classList.add('validButton')      //Ajout de la classe valid au bouton de validation du projet
+  } else {                                                                           
+    document.getElementById('modalValidateButton').classList.remove('validButton')   //Retrait de la classe valid au bouton de validation du projet
+    document.getElementById('modalValidateButton').classList.add('invalidButton')    //Ajout de la classe invalid au bouton de validation du projet
+  }
+}
+
+//Vérification du champ de formulaire
+const checkInput = (input) => {
+  if (input.value === '' || input.selectedIndex === 0 ) {    //Vérification de la complétion du champ
+    input.parentElement.classList.add('invalid')             //Ajout de la classe invalid
+    return false                                              
+  } if (input.parentElement.classList.contains('invalid')) {  
+      input.parentElement.classList.remove('invalid')        //Retrait de la classe invalid, si présente
+  } else {                                                    
+    return true                                               
+  }
+}
+
+//Vérification du formulaire
+const validForm = () => {
+  const checkList = []                                       //Création d'un tableau de vérification des champs
+  document.querySelectorAll('.formInput').forEach(input => { //Récupération des champs
+    checkList.push(checkInput(input))                        //Ajout du résultat de la vérification des champs au tableau
+  })  
+  if (checkList.includes(false) === true) {                  //Vérification de la présence d'un champ invalide dans le tableau
+    alert("Formulaire incomplet")                            //Message à l'utilisateur
+  } else {                                                                    
+    setNewWork()                                             //Edition du projet
+  }
+}
+
+//Edition du projet
+const setNewWork = () => {
+  formData = new FormData()                                                                     //Création d'un ensemble de paire clé/valeur
+  formData.append('image', document.getElementById('newWorkImage').files[0])                    //
+  formData.append('title', document.getElementById('newWorkTitle').value)                       //Champs de formulaire et leurs valeurs
+  formData.append('category', document.getElementById('newWorkCategory').selectedOptions[0].id) //
+  postNewWork(formData)                                                                         //Envoi du projet
+  clearForm()                                                                                   //Nettoyage du formulaire
+}
+
+//Envoi du projet
+const postNewWork = async (formData) => {
+  return await fetch(`${apiUrl}works`, {  //Chemin de la requête dans l'API
+    method: 'POST',                       //Type de requête
+    headers: {                            //En-tête
+        Authorization: `Bearer ${token}`  //Authentification
+    },
+    body: formData                        //Type de corps
+  })
+  .then(res => {                          //Fonction de rappel
+    if (res.status === 201) {             //Message de statut de l'API
+      alert("Le projet est ajouté.")      //Message à l'utilisateur  
+  }})
+  .catch((error) => {                     //Vérification de la présence d'une erreur
+    console.log(error)                    //Visualisation de l'erreur dans la console
   })
 }
 
@@ -238,137 +372,3 @@ const closeModal = () => {
     input.removeEventListener('input', validInput)                                       //
   })                                                                                     //
 }                                                                                        //
-
-//Aperçu de l'image du projet à ajouter
-const displayPreview = () => {
-  const preview = document.getElementById('preview')                    //Récupération de l'élément dans le document  
-  const file = document.getElementById('newWorkImage').files[0]         //Récupération de l'élément de champ dans le formulaire
-  const image = document.createElement('img')                           //Création d'un élément image
-  image.setAttribute('id', 'imagePreview')                              //Attribution d'un id
-  image.src = URL.createObjectURL(file)                                 //Source de l'image
-  if (file) {                                                           //Vérification de la présence d'un fichier
-      document.getElementById('setNewWorkImage').style.display = 'none' //Masquage du champ de formulaire
-      preview.style.display = null                                      //Affichage de la partie aperçu
-      preview.appendChild(image)                                        //Ajout de l'aperçu dans le document
-  }    
-}
-
-//Nettoyage du formulaire d'ajout de projet
-const clearForm = () => {
-  document.getElementById('setNewWorkImage').style.display = null //Affichage du champ d'ajout d'image
-  document.getElementById('newWorkImage').value = ''              //Nettoyage du champ d'ajout d'image
-  document.getElementById('preview').style.display = 'none'       //Masquage du champ d'aperçu
-  document.getElementById('preview').innerHTML = ''               //Nettoyage du champ d'aperçu de l'image
-  document.getElementById('newWorkTitle').value = ''              //Nettoyage du champ titre 
-  document.getElementById('newWorkCategory').selectedIndex = 0    //Nettoyage du champ de sélection de catégorie
-  document.querySelectorAll('.formInput').forEach(input => {      //
-    if (input.parentElement.classList.contains('invalid')) {      //Retrait de la classe invalid des champs de formulaire si présente
-      input.parentElement.classList.remove('invalid')             //
-    }
-  })
-}
-
-//Suppression d'un projet
-const deleteWork = async (id) => {             
-  return await fetch(`${apiUrl}works/${id}`, { //Chemin de la promesse dans l'API
-    method: 'DELETE',                          //Type de requête
-    headers: {                                 //En-tête
-      'Authorization': `Bearer ${token}`       //Authentification
-    }
-  })
-  .then(res => {                               //Fonction de rappel 
-    if (res.status === 204) {                  //Message de statut de l'API
-      alert("Le projet est supprimé.")         //Message à l'utilisateur
-      updateGallery(id)                        //Mise à jour de la galerie
-  }})
-  .catch((error) => {                          //Vérification de la présence d'une erreur 
-    console.log(error)                         //Visualisation de l'erreur dans la console
-  })
-}
-
-//Mise à jour de la galerie
-const updateGallery = (id) => {                                 
-  const workFigure = document.querySelectorAll('.workFigure') //Sélection des figures des galeries
-  workFigure.forEach(element => {                             //Sélection des figures
-    if (element.id == id) {                                   //comparaison des id
-      element.remove()                                        //Retrait des figures
-    }
-  })
-}
-
-//Vérification des champs de formulaire
-const validInput = () => {
-  const checkList = []                                                               //Création d'un tableau de vérification des champs
-  document.querySelectorAll('.formInput').forEach(input => {                         //Récupération des champs
-    checkList.push(listenInput(input))                                               //Ajout du résultat de la vérification des champs au tableau
-  })
-  if (checkList.includes(false) === false) {                                         //Vérification de la présence d'un champ invalide dans le tableau
-    document.getElementById('modalValidateButton').classList.remove('invalidButton') //Retrait de la classe invalid au bouton de validation du projet
-    document.getElementById('modalValidateButton').classList.add('validButton')      //Ajout de la classe valid au bouton de validation du projet
-  } else {                                                                           
-    document.getElementById('modalValidateButton').classList.remove('validButton')   //Retrait de la classe valid au bouton de validation du projet
-    document.getElementById('modalValidateButton').classList.add('invalidButton')    //Ajout de la classe invalid au bouton de validation du projet
-  }
-}
-
-//Vérification du champ de formulaire
-  const listenInput = (input) => {
-    if (input.value === '' || input.selectedIndex === 0) { //Vérification de la complétion du champ
-    return false                                            
-  } else {                                                  
-    return true                                            
-  }      
-}
-
-//Vérification du formulaire
-const validForm = () => {
-  const checkList = []                                       //Création d'un tableau de vérification des champs
-  document.querySelectorAll('.formInput').forEach(input => { //Récupération des champs
-    checkList.push(checkInput(input))                        //Ajout du résultat de la vérification des champs au tableau
-  })  
-  if (checkList.includes(false) === true) {                  //Vérification de la présence d'un champ invalide dans le tableau
-    alert("Formulaire incomplet")                            //Message à l'utilisateur
-  } else {                                                                    
-    setNewWork()                                             //Edition du projet
-  }
-}
-
-//Vérification du champ de formulaire
-const checkInput = (input) => {
-  if (input.value === '' || input.selectedIndex === 0 ) {    //Vérification de la complétion du champ
-    input.parentElement.classList.add('invalid')             //Ajout de la classe invalid
-    return false                                              
-  } if (input.parentElement.classList.contains('invalid')) {  
-      input.parentElement.classList.remove('invalid')        //Retrait de la classe invalid, si présente
-  } else {                                                    
-    return true                                               
-  }
-}
-
-//Edition du projet
-const setNewWork = () => {
-  formData = new FormData()                                                                     //Création d'un ensemble de paire clé/valeur
-  formData.append('image', document.getElementById('newWorkImage').files[0])                    //
-  formData.append('title', document.getElementById('newWorkTitle').value)                       //Champs de formulaire et leurs valeurs
-  formData.append('category', document.getElementById('newWorkCategory').selectedOptions[0].id) //
-  postNewWork(formData)                                                                         //Envoi du projet
-  clearForm()                                                                                   //Nettoyage du formulaire
-}
-
-//Envoi du projet
-const postNewWork = async (formData) => {
-  return await fetch(`${apiUrl}works`, {  //Chemin de la requête dans l'API
-    method: 'POST',                       //Type de requête
-    headers: {                            //En-tête
-        Authorization: `Bearer ${token}`  //Authentification
-    },
-    body: formData                        //Type de corps
-  })
-  .then(res => {                          //Fonction de rappel
-    if (res.status === 201) {             //Message de statut de l'API
-      alert("Le projet est ajouté.")      //Message à l'utilisateur  
-  }})
-  .catch((error) => {                     //Vérification de la présence d'une erreur
-    console.log(error)                    //Visualisation de l'erreur dans la console
-  })
-}
