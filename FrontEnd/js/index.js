@@ -54,7 +54,7 @@ const setFilters = (categoryList) => {
 
 //Création du bouton
 const filterButton = (category) => {
-  button = document.createElement('button')                      
+  button = document.createElement('button')              //Création d'un élement bouton       
   button.setAttribute('id', category.id)                 //Attribution d'un id identique à celui de la catégorie
   button.setAttribute('class', category.name)            //Attribution d'une classe identique au nom de la catégorie             
   button.textContent = (category.name)                   //Attribution d'un nom identique à celui de la catégorie                                
@@ -74,16 +74,18 @@ const getApiWorks = async () => {
 
 //Création de la liste des projets
 const getWorks = async () => {
-  const setWorks = new Set (await getApiWorks()) //Création d'une liste des projets sans doublons
-  const works = Array.from(setWorks.values())    //Conversion en tableau
-  console.log("Works : ", works)                 //Visualisation de la liste dans la console
-  displayGalleries(works)                        //Affichage des galeries
+  const setWorks = new Set (await getApiWorks())          //Création d'une liste des projets sans doublons
+  const works = Array.from(setWorks.values())             //Conversion en tableau
+  console.log("Works : ", works)                          //Visualisation de la liste dans la console
+  document.getElementById('gallery').innerHTML = ""       //Retrait de la galerie présente dans le document
+  document.getElementById('modalGallery').innerHTML = ""  //Retrait de la galerie présente dans la modale
+  displayGalleries(works)                                 //Affichage des galeries
 }
 getWorks()
 
 //Affichage des galeries
 const displayGalleries = (works) => { 
-  document.getElementById(0).focus()
+  document.getElementById(0).focus()  //Focus sur le bouton "Tous" au chargement de la page
   works.forEach(work => {             //Sélection de projets
     galleryFigure(work)               //Affichage de la galerie dans le document
     modalFigure(work)                 //Affichage de la galerie dans la modale
@@ -264,10 +266,10 @@ const clearForm = () => {
 //Vérification du champ de formulaire
 const listenInput = (input) => {
   if (input.value === '' || input.selectedIndex === 0) { //Vérification de la complétion du champ
-  return false                                            
-} else {                                                  
-  return true                                            
-}      
+    return false                                            
+  } else {                                                  
+    return true                                            
+  }      
 }
 
 //Vérification des champs de formulaire
@@ -279,7 +281,7 @@ const validInput = () => {
   if (checkList.includes(false) === false) {                                         //Vérification de la présence d'un champ invalide dans le tableau
     document.getElementById('modalValidateButton').classList.remove('invalidButton') //Retrait de la classe invalid au bouton de validation du projet
     document.getElementById('modalValidateButton').classList.add('validButton')      //Ajout de la classe valid au bouton de validation du projet
-  } else {                                                                           
+  } else {                                                                   
     document.getElementById('modalValidateButton').classList.remove('validButton')   //Retrait de la classe valid au bouton de validation du projet
     document.getElementById('modalValidateButton').classList.add('invalidButton')    //Ajout de la classe invalid au bouton de validation du projet
   }
@@ -315,7 +317,7 @@ const setNewWork = () => {
   formData = new FormData()                                                                     //Création d'un ensemble de paire clé/valeur
   formData.append('image', document.getElementById('newWorkImage').files[0])                    //
   formData.append('title', document.getElementById('newWorkTitle').value)                       //Champs de formulaire et leurs valeurs
-  formData.append('category', document.getElementById('newWorkCategory').selectedOptions[0].id) //
+  formData.append('category', document.getElementById('newWorkCategory').selectedOptions[0].id) //                                                     //
   postNewWork(formData)                                                                         //Envoi du projet
   clearForm()                                                                                   //Nettoyage du formulaire
 }
@@ -331,7 +333,8 @@ const postNewWork = async (formData) => {
   })
   .then(res => {                          //Fonction de rappel
     if (res.status === 201) {             //Message de statut de l'API
-      alert("Le projet est ajouté.")      //Message à l'utilisateur  
+      alert("Le projet est ajouté.")      //Message à l'utilisateur
+      getWorks()                          //Lancement de la récupération des projet pour mise à jour des galeries
   }})
   .catch((error) => {                     //Vérification de la présence d'une erreur
     console.log(error)                    //Visualisation de l'erreur dans la console

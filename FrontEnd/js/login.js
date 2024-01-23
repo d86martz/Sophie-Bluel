@@ -17,14 +17,14 @@ const authentification = async () => {
   sessionStorage.removeItem('token')                      //Retrait d'un éventuel identifiant présent dans le stockage
   return await fetch(`${apiUrl}users/login`, {            //Chemin de la requête dans l'API     
     method: "POST",                                       //Type de requête
-    body: JSON.stringify({                                //Conversion des données
-      email: email,                                       //Element transmis
-      password: password,                                 //Element transmis
-    }),
     headers: {                                            //En-tête
       accept: "application/json",                         //Type de réponse
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({                                //Conversion des données
+      email: email,                                       //Element transmis
+      password: password,                                 //Element transmis
+    }),
   })
     .then((res) => res.json())                                 //Fonction de rappel pour conversion
     .then((data) => {                                          //Fonction de rappel
